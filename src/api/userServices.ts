@@ -1,4 +1,5 @@
 import axios from "axios";
+import { EMAIL, PASSWORD } from "../utils/useAuth";
 
 const BASE_URL = "http://localhost:8000/";
 const USER_URL = `${BASE_URL}users`;
@@ -52,6 +53,19 @@ class UserServices {
       })
       .catch((error) => console.error(error))
       .then(() => console.log("Done getUserByEmail"));
+  };
+
+  matchPassword = (dbPassword: string, inputPassword: string) =>
+    dbPassword === inputPassword;
+
+  checkLogin = async (email: string, password: string) => {
+    const user = await this.getUser(email);
+    if (!user) return { type: EMAIL, worning: "email이 존재하지 않습니다" };
+
+    if (!this.matchPassword(user.password, password))
+      return { type: PASSWORD, worning: "비밀번호가 바르지 않습니다" };
+
+    return { type: "pass" };
   };
 }
 

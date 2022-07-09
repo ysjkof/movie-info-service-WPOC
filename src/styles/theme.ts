@@ -1,7 +1,5 @@
-import { DefaultTheme } from "styled-components";
-
-export const theme: DefaultTheme = {
-  bgColor: { default: "black" },
+export const theme = {
+  bgColor: { black: "black", blue: "#0b071c" },
   color: { default: "white" },
   borderColor: { default: "gray" },
 };
