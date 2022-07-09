@@ -62,3 +62,34 @@ See also: #23, #24
 동일한 작업을 할 때 브랜치 이름이 똑같으면 어떻게 분간할지 의문이 생겼다. 브랜치 이름에 번호나 날짜를 써야 될까? git branch 전략인 git-flow, github-flow를 보니 브랜치는 임무를 마치면 삭제되고 직접 PR, merge를 해보니 커밋 기록에 브랜치 이름이 ~~남지 않는다. 그래서 크게 신경쓰지 않아도 될 것 같다.~~ Git graph에서 보인다. 어딘가 남긴 하지만 일단 필요성이 크게 와닿지 않아 **할 일**만 써보도록 한다
 
 **결론**: 작업 후 브랜치는 삭제될거고, 커밋에 브랜치 이름이 기록되지 않으니 브랜치 이름이 중복되는 건 신경쓰지 말고 그냥 **할 일**을 적는다.
+
+## 3. API
+
+### 3.A. UserServices
+
+#### 3.A.1. getUser(email:string):Promise<User>
+
+- async/await으로 받아와 state에 넣어줘야 값을 읽을 수 있다
+
+```ts
+function Home() {
+  const [user, setUser] = useState<User>();
+
+  useEffect(() => {
+    (async () => {
+      const gettedUser = await userServices.getUser("test@t.co");
+      setUser(gettedUser);
+    })();
+  }, []);
+
+  return <h1>{user && user.email}</h1>;
+}
+```
+
+#### 3.A.2. getLastUserId():Promise<number>
+
+- 전체 user 배열은 받아서 id를 내림차순으로 정렬해 index 0의 id값을 반환한다
+
+#### 3.A.2. postUser(user:User)
+
+- user객체를 전달하면 데이터베이스에 저장한다
