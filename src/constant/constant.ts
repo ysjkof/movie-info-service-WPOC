@@ -1,3 +1,11 @@
+// URL
+const BASE_URL = "http://localhost:8000/";
+export const USER_URL = `${BASE_URL}users/`;
+export const MOVIE_URL = `${BASE_URL}movies/`;
+
+// etc
+export const MOVIE_TAKE_NUMBER = 20;
+
 // localStorage Key
 export const LOCAL_STORAGE_KEY = "wanted_movie_info_service";
 export const LOGIN_KEY = "wanted-pre-onboarding-fe";
