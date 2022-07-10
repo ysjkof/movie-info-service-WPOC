@@ -1,16 +1,23 @@
-import { useEffect, useState } from "react";
-import { User, userServices } from "../api/userServices";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { User } from "../utils/useAuth";
 
 function Home() {
   const [user, setUser] = useState<User>();
-  useEffect(() => {
-    (async () => {
-      const gettedUser = await userServices.getUser("test@t.co");
-      setUser(gettedUser);
-    })();
-  }, []);
+  const navigate = useNavigate();
 
-  return <h1>{user && user.email}</h1>;
+  return (
+    <Container>
+      <button onClick={() => navigate("", { state: "로그인" })}>킴</button>
+      <button onClick={() => navigate("", { state: undefined })}>끔</button>
+      {user && user.email}
+    </Container>
+  );
 }
 
 export default Home;
+
+const Container = styled.div`
+  background-color: ${(props) => props.theme.bgColor.blue};
+`;

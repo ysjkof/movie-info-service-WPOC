@@ -1,4 +1,5 @@
 import axios from "axios";
+import { User } from "../utils/useAuth";
 
 const BASE_URL = "http://localhost:8000/";
 const USER_URL = `${BASE_URL}users`;
@@ -10,18 +11,11 @@ const axiosUser = axios.create({
   },
 });
 
-// getUser = async (email: string) => {
-//   return await (
-//     await axiosUser.get(`${BASE_URL}users?ID=${email}`)
-//   ).data[0];
-// };
-// 위와 아래 getUser의 기능은 같고, 아래는 에러처리와 동작이 끝난 후 console.log를 출력한다
-
 class UserServices {
   getUser = async (email: string): Promise<User> => {
     let data: User;
     await axiosUser
-      .get(`${USER_URL}?ID=${email}`)
+      .get(USER_URL, { params: { email } })
       .then((_response) => {
         data = _response.data[0];
       })
@@ -56,16 +50,3 @@ class UserServices {
 }
 
 export const userServices = new UserServices();
-
-type Watched = { id: number; numberOfWached: number }[];
-
-export class User {
-  public readonly watched: Watched = [];
-  public readonly likes: number[] = [];
-  public readonly favorites: number[] = [];
-  constructor(
-    public readonly id: number,
-    public readonly email: string,
-    public readonly password: string
-  ) {}
-}
