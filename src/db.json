@@ -10,8 +10,16 @@
           "numberOfWached": 2
         }
       ],
-      "likes": [28237],
-      "favorites": [28237, 34592]
+      "likes": [],
+      "favorites": []
+    },
+    {
+      "watched": [],
+      "likes": [],
+      "favorites": [],
+      "id": 2,
+      "email": "test1@t.co",
+      "password": "asd123!@"
     }
   ],
   "movies": [

@@ -1,11 +1,9 @@
 import axios from "axios";
+import { USER_URL } from "../constant/constant";
 import { User } from "../utils/useAuth";
 
-const BASE_URL = "http://localhost:8000/";
-const USER_URL = `${BASE_URL}users`;
-
 const axiosUser = axios.create({
-  baseURL: `${USER_URL}`,
+  baseURL: USER_URL,
   headers: {
     "Content-type": "application/json",
   },
@@ -15,7 +13,7 @@ class UserServices {
   getUser = async (email: string): Promise<User> => {
     let data: User;
     await axiosUser
-      .get(USER_URL, { params: { email } })
+      .get("", { params: { email } })
       .then((_response) => {
         data = _response.data[0];
       })
@@ -28,7 +26,7 @@ class UserServices {
   getIdOfLastUser = async (): Promise<number> => {
     let lastUserId = 1;
     await axiosUser
-      .get(USER_URL)
+      .get("")
       .then((_response) => {
         // @ts-ignore
         lastUserId = _response.data.sort((a, b) => b.id - a.id)[0].id ?? 1;
@@ -40,7 +38,7 @@ class UserServices {
 
   postUser = async (user: User) => {
     axiosUser
-      .post(USER_URL, user)
+      .post("", user)
       .then((_response) => {
         console.warn("postUser status code: ", _response.status);
       })

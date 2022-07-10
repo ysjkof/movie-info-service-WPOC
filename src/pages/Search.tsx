@@ -1,25 +1,21 @@
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Movie from "../components/Movie";
-import { useMe } from "../hook/useMe";
 import { useMovie } from "../hook/useMovie";
 import { Container, Movies, Worning } from "./Home";
 
-function Favorite() {
-  const { movies, getMovie, getLike } = useMovie();
-  const { me, getMe } = useMe();
+function Search() {
+  const { movies, searchMovieTitle, getMovie } = useMovie();
+  const { term } = useParams();
 
   useEffect(() => {
-    getMe();
-  }, []);
-
-  useEffect(() => {
-    getLike(me?.likes ?? [0]);
-  }, [me]);
+    searchMovieTitle(term ?? "");
+  }, [term]);
 
   return (
     <Container>
       <Movies>
-        {movies.length === 0 && <Worning>즐겨찾기 목록이 없습니다.</Worning>}
+        {movies.length === 0 && <Worning>검색 결과가 없습니다.</Worning>}
         {movies?.map((movie, idx) => (
           <Movie
             key={movie.id + idx}
@@ -32,4 +28,4 @@ function Favorite() {
   );
 }
 
-export default Favorite;
+export default Search;

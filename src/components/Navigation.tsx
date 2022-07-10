@@ -1,23 +1,22 @@
-import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FormEvent, useEffect, useRef } from "react";
+import { Link, useLocation, useMatch, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useMe } from "../hook/useMe";
+import { ROUTES } from "../router";
 import { LocationState } from "./Modal";
 
 function Navigation() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [hasSearch, setHasSearch] = useState(true);
   const { me, getMe, logout } = useMe();
   const { state } = location as { state: LocationState };
+  const matchFavorite = useMatch(ROUTES.favorite);
 
-  const goToBookmark = () => {
+  const goToFavorite = () => {
     if (!me) return;
-    navigate("bookmark", { state: undefined });
-    setHasSearch(false);
+    navigate(ROUTES.favorite, { state: undefined });
   };
   const toggleSearch = () => {
-    setHasSearch(true);
     navigate("");
   };
   useEffect(() => {
@@ -25,8 +24,16 @@ function Navigation() {
   }, []);
 
   useEffect(() => {
+    console.log("navi state", state);
     if (state?.todo === "todo_get_me") getMe();
   }, [state]);
+
+  const searchRef = useRef<HTMLInputElement>(null);
+  const searchMovie = (event: FormEvent) => {
+    event.preventDefault();
+    const title = searchRef.current?.value;
+    navigate(`search/${title}`);
+  };
 
   return (
     <Container>
@@ -35,18 +42,20 @@ function Navigation() {
           <Link to={""}>원티들릭스</Link>
         </Title>
       </Column>
-      {hasSearch && (
+      {!matchFavorite && (
         <Column>
-          <input type={"search"} />
+          <form onSubmit={searchMovie}>
+            <input type={"search"} ref={searchRef} />
+          </form>
         </Column>
       )}
       <Column>
-        {!hasSearch && (
+        {matchFavorite && (
           <Button isActive onClick={toggleSearch}>
             검색
           </Button>
         )}
-        <Button isActive={!!me} onClick={goToBookmark}>
+        <Button isActive={!!me} onClick={goToFavorite}>
           즐겨찾기
         </Button>
         {me ? (
