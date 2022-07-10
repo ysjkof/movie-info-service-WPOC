@@ -93,3 +93,42 @@ function Home() {
 #### 3.A.2. postUser(user:User)
 
 - user객체를 전달하면 데이터베이스에 저장한다
+
+## 4. 학습목표
+
+### 4.A. 선발 과제
+
+- [x] `Ref` 를 활용하여 렌더링을 최적화 시킬 수 있다.
+- [x] `Local Storage` 를 활용하여 유저 데이터를 처리할 수 있다.
+- [x] `Data Fetching`을 활용하여 필요한 데이터를 호출할 수 있다.
+- [x] `반응형 CSS`를 위한 `theme`을 정의하여, 공통된 CSS 컨벤션을 팀이 활용할 수 있다.
+- [x] `Routing`을 활용하여 유저 로그인 상태에 따른 페이지 이동을 시킬 수 있다.
+
+### 4.B. 영화 정보 사이트
+
+- [x] `data fetching module`을 구현할 수 있다.
+- [ ] `검색 기능`을 구현할 수 있다.
+  - 검색 결과 없는 경우 "검색 결과가 없습니다" 표시
+- [ ] `즐겨찾기`를 구현할 수 있다.
+- [ ] 화면 최하단에 `infinity scroll` 구현
+
+---
+
+### 4.C. 검색어 추천
+
+- [ ] 간단한 검색어 추천 로직을 만들 수 있다.
+
+---
+
+## 참조
+
+- [git flow 사용법](https://blckchainetc.tistory.com/352)
+- [Github markdown formatting syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
+
+**패키지**
+
+- [Vite](https://vitejs-kr.github.io)
+- [JSON Server](https://github.com/typicode/json-server)
+- [axios](https://axios-http.com/kr/)
+- [React Router](https://reactrouter.com/docs/en/v6)
+- [styled components](https://styled-components.com)
