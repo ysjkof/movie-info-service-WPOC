@@ -1,8 +1,8 @@
 import { FormEvent } from "react";
 import {
-  loginMutation,
   checkError,
   setUserToLocalStorage,
+  createAccountMutation,
 } from "../utils/useAuth";
 import FormTemplate, { SubmitParameter } from "./FormTemplate";
 
@@ -12,7 +12,7 @@ export interface Errors {
   worning?: string;
 }
 
-function LoginForm() {
+function CreateAccountForm() {
   const handleSubmit = async (
     event: FormEvent,
     { errors, setErrors, emailRef, passwordRef, goToMain }: SubmitParameter
@@ -24,20 +24,23 @@ function LoginForm() {
     const email = emailRef.current?.value!;
     const password = passwordRef.current?.value!;
 
-    const loginResults = await loginMutation({ email, password });
+    const createAccountResults = await createAccountMutation({
+      email,
+      password,
+    });
 
-    if (!(loginResults.type === "pass"))
+    if (!(createAccountResults.type === "pass"))
       return setErrors((prevState) => ({
         ...prevState,
-        [loginResults.type]: true,
-        worning: loginResults.worning,
+        [createAccountResults.type]: true,
+        worning: createAccountResults.worning,
       }));
 
-    setUserToLocalStorage(loginResults.user!);
+    setUserToLocalStorage(createAccountResults.user!);
     goToMain();
   };
 
-  return <FormTemplate title={"로그인"} handleSubmit={handleSubmit} />;
+  return <FormTemplate title={"회원가입"} handleSubmit={handleSubmit} />;
 }
 
-export default LoginForm;
+export default CreateAccountForm;

@@ -1,9 +1,16 @@
-import { User } from "../api/userServices";
+import { userServices } from "../api/userServices";
 import { Errors } from "../components/LoginForm";
+import {
+  EMAIL,
+  ERROR_MESSAGES,
+  InputNames,
+  LOCAL_STORAGE_KEY,
+  LoginInput,
+  LOGIN_INPUT_REGEX,
+  PASSWORD,
+} from "../constant/constant";
 
-const LOCAL_STORAGE_KEY = "wanted_movie_info_service";
-
-export const saveToken = (user: User) => {
+export const setUserToLocalStorage = (user: User) => {
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(user));
 };
 
@@ -11,33 +18,10 @@ export const getLoggedInUser = () => {
   return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)!);
 };
 
-export const removeToken = () => {
+export const removeUserFromLocalStorage = () => {
   localStorage.removeItem(LOCAL_STORAGE_KEY);
 };
 
-export const LOGIN_KEY = "wanted-pre-onboarding-fe";
-
-const REGEX_ID =
-  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-const REGEX_PASSWORD =
-  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-
-export const EMAIL = "email";
-export const PASSWORD = "password";
-
-export const LOGIN_INPUT_REGEX = {
-  [EMAIL]: REGEX_ID,
-  [PASSWORD]: REGEX_PASSWORD,
-};
-
-export const errorMessages = {
-  [EMAIL]: "정확한 이메일 주소를 입력하세요",
-  [PASSWORD]: "비밀번호는 숫자, 대문자, 특수 문자 포함 8자 이상입니다",
-  duplicateEmail: "이미 가입된 이메일 주소입니다",
-};
-
-type InputNames = typeof EMAIL | typeof PASSWORD;
 interface Validation {
   name: InputNames;
   value: string;
@@ -48,10 +32,6 @@ export const checkValidation = ({ name, value }: Validation) =>
 export const checkError = (errors: Errors) =>
   Object.values(errors).find(Boolean);
 
-interface ValidInput {
-  ref: React.RefObject<HTMLInputElement>;
-  setErrors: React.Dispatch<React.SetStateAction<Errors>>;
-}
 export const validInput = ({ ref, setErrors }: ValidInput) => {
   const name = ref.current!.name as InputNames;
   const value = ref.current!.value;
@@ -59,7 +39,7 @@ export const validInput = ({ ref, setErrors }: ValidInput) => {
     return setErrors((prevState) => ({
       ...prevState,
       [name]: true,
-      worning: errorMessages[name],
+      worning: ERROR_MESSAGES[name],
     }));
   }
   setErrors((prevState) => ({
@@ -68,4 +48,59 @@ export const validInput = ({ ref, setErrors }: ValidInput) => {
     worning: "",
   }));
   setErrors((prevState) => ({ ...prevState, [name]: false }));
+};
+
+interface ValidInput {
+  ref: React.RefObject<HTMLInputElement>;
+  setErrors: React.Dispatch<React.SetStateAction<Errors>>;
+}
+
+interface LoginMutation {
+  type: InputNames | "pass";
+  worning?: string;
+  user?: User;
+}
+
+const matchPassword = (dbPassword: string, inputPassword: string) =>
+  dbPassword === inputPassword;
+
+export const loginMutation = async ({
+  email,
+  password,
+}: LoginInput): Promise<LoginMutation> => {
+  const user = await userServices.getUser(email);
+  console.log("checkEmail", user);
+  if (!user) return { type: EMAIL, worning: ERROR_MESSAGES[EMAIL] };
+
+  if (!matchPassword(user.password, password))
+    return { type: PASSWORD, worning: ERROR_MESSAGES[PASSWORD] };
+
+  return { type: "pass", user };
+};
+
+type Watched = { id: number; numberOfWached: number }[];
+export class User {
+  public readonly watched: Watched = [];
+  public readonly likes: number[] = [];
+  public readonly favorites: number[] = [];
+  constructor(
+    public readonly id: number,
+    public readonly email: string,
+    public readonly password: string
+  ) {}
+}
+
+export const createAccountMutation = async ({
+  email,
+  password,
+}: LoginInput): Promise<LoginMutation> => {
+  const existsUser = await userServices.getUser(email);
+  if (existsUser)
+    return { type: EMAIL, worning: ERROR_MESSAGES.duplicateEmail };
+
+  const id = (await userServices.getIdOfLastUser()) + 1;
+  const user = new User(id, email, password);
+  await userServices.postUser(user);
+
+  return { type: "pass", user };
 };

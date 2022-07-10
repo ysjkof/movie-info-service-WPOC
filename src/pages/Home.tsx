@@ -1,23 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { User, userServices } from "../api/userServices";
+import { User } from "../utils/useAuth";
 
 function Home() {
   const [user, setUser] = useState<User>();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    (async () => {
-      const gettedUser = await userServices.getUser("test@t.co");
-      setUser(gettedUser);
-    })();
-  }, []);
-
   return (
     <Container>
-      <button onClick={() => navigate("", { state: "login" })}>킴</button>
-      <button onClick={() => navigate("", { state: null })}>끔</button>
+      <button onClick={() => navigate("", { state: "로그인" })}>킴</button>
+      <button onClick={() => navigate("", { state: undefined })}>끔</button>
       {user && user.email}
     </Container>
   );
