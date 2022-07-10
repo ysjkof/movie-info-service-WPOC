@@ -42,8 +42,10 @@ function FormTemplate({ title, handleSubmit }: FormTemplateProps) {
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const GO_TO = title === "로그인" ? "회원가입" : "로그인";
-  const goToPage = () => navigate("", { state: GO_TO });
-  const goToMain = () => navigate("/", { state: undefined });
+  const goToPage = () =>
+    navigate("", { state: { hasModal: true, todo: GO_TO } });
+  const goToMain = () =>
+    navigate("", { state: { hasModal: false, todo: "todo_get_me" } });
 
   return (
     <Form
