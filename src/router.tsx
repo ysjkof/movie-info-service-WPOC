@@ -3,15 +3,21 @@ import Layout from "./components/Layout";
 import Favorite from "./pages/Favorite";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
+import Search from "./pages/Search";
+
+export const ROUTES = {
+  home: "/",
+  favorite: "/favorite",
+};
 
 function Router() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
+      <Route path={ROUTES.home} element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="bookmark" element={<Favorite />} />
+        <Route path={ROUTES.favorite} element={<Favorite />} />
         <Route path="search">
-          <Route path=":term" element={<p>Nested Routes</p>} />
+          <Route path=":term" element={<Search />} />
         </Route>
       </Route>
       <Route path="*" element={<NotFound />} />
