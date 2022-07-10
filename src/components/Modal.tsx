@@ -4,33 +4,38 @@ import styled from "styled-components";
 import CreateAccountForm from "./CreateAccountForm";
 import LoginForm from "./LoginForm";
 
-type LocationState = "로그인" | "회원가입" | undefined;
+export interface LocationState {
+  hasModal: boolean;
+  todo?: "로그인" | "회원가입" | "todo_get_me";
+}
 
 function Modal() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [openModal, setOpenModal] = useState<LocationState>();
+  const [openModal, setOpenModal] = useState(false);
   const { state } = location as { state: LocationState };
 
   useEffect(() => {
-    setOpenModal(state);
+    if (state) setOpenModal(state.hasModal);
   }, [state]);
 
   return (
     <Container openModal={openModal}>
       <ModalContents>
-        <CloseButton onClick={() => navigate("", { state: undefined })}>
+        <CloseButton
+          onClick={() => navigate("", { state: { hasModal: false } })}
+        >
           X
         </CloseButton>
-        {state === "로그인" && <LoginForm />}
-        {state === "회원가입" && <CreateAccountForm />}
+        {state?.todo === "로그인" && <LoginForm />}
+        {state?.todo === "회원가입" && <CreateAccountForm />}
       </ModalContents>
     </Container>
   );
 }
 export default Modal;
 
-const Container = styled.div<{ openModal: LocationState }>`
+const Container = styled.div<{ openModal: boolean }>`
   position: fixed;
   top: 0;
   left: 0;

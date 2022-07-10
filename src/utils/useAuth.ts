@@ -14,7 +14,7 @@ export const setUserToLocalStorage = (user: User) => {
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(user));
 };
 
-export const getLoggedInUser = () => {
+export const getLoggedInUser = (): User => {
   return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)!);
 };
 
@@ -69,7 +69,6 @@ export const loginMutation = async ({
   password,
 }: LoginInput): Promise<LoginMutation> => {
   const user = await userServices.getUser(email);
-  console.log("checkEmail", user);
   if (!user) return { type: EMAIL, worning: ERROR_MESSAGES[EMAIL] };
 
   if (!matchPassword(user.password, password))
