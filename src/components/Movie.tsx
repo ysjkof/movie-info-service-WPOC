@@ -1,8 +1,14 @@
 import styled from "styled-components";
+import { MovieType } from "../hook/useMovie";
 
-function Movie({ movie }) {
+interface MovieProps {
+  movie: MovieType;
+  openMovie: () => void;
+}
+
+function Movie({ movie, openMovie }: MovieProps) {
   return (
-    <Container>
+    <Container onClick={openMovie}>
       <CoverImg src={movie.medium_cover_image} />
       <Title>{movie.title}</Title>
     </Container>
