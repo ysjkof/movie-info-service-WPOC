@@ -32,6 +32,8 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	color:${(props) => props.theme.color.default};
+	background-color: ${(props) => props.theme.bgColor.blue};
 }
 ol, ul {
 	list-style: none;
@@ -47,6 +49,13 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+a{
+	color:${(props) => props.theme.color.default};
+	text-decoration: none;
+}
+button{
+	border: 1px solid white
 }
 `;
 
