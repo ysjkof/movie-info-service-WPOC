@@ -16,7 +16,6 @@ class MovieServices {
       .get("")
       .then((_response) => {
         data = _response.data;
-        console.log(data);
       })
       .catch((error) => console.error(error))
       .then(() => console.log("Done getMany"));
