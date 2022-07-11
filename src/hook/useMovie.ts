@@ -45,8 +45,12 @@ const emptyArr = (arr: any[]) => arr.length === 0;
 
 export const useMovie = () => {
   const [allMovies, setAllMovies] = useState<MovieType[]>([]);
+  const [movieTitles, setMovieTitles] = useState<string[]>([]);
   const [movies, setMovies] = useState<MovieType[]>([]);
   const [movie, setMovie] = useState<MovieType>();
+
+  const extractTitle = (movies: MovieType[]) =>
+    movies.map((movie) => movie.title);
 
   const getMovies = async (page = 1) => {
     const take = MOVIE_TAKE_NUMBER;
@@ -54,6 +58,8 @@ export const useMovie = () => {
       const totalMovies = await movieServices.getMany();
       const paginationMovie = sliceMovies(totalMovies, { take, page });
       setAllMovies(totalMovies);
+      const movieTitles = extractTitle(totalMovies);
+      setMovieTitles(movieTitles);
       return setMovies(paginationMovie);
     }
     const pagenationMovie = sliceMovies(allMovies, { take, page });
@@ -77,5 +83,13 @@ export const useMovie = () => {
     );
     setMovies(likes);
   };
-  return { movies, getMovies, getMovie, movie, searchMovieTitle, getLike };
+  return {
+    movies,
+    getMovies,
+    getMovie,
+    movie,
+    searchMovieTitle,
+    getLike,
+    movieTitles,
+  };
 };
