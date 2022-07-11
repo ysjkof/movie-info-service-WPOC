@@ -56,7 +56,6 @@ export const useMovie = () => {
       setAllMovies(totalMovies);
       return setMovies(paginationMovie);
     }
-
     const pagenationMovie = sliceMovies(allMovies, { take, page });
     return setMovies((prevMovies) => [...prevMovies, ...pagenationMovie]);
   };
