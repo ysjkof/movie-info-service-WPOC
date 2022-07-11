@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Movie from "../components/Movie";
+import useIntersectionObserver from "../hook/useIntersectionObserver";
 import { useMovie } from "../hook/useMovie";
 
 function Home() {
@@ -11,20 +12,7 @@ function Home() {
   const intersectionCalback = () => {
     setPageNumber((prev) => prev + 1);
   };
-
-  const options = {
-    root: null, // 뷰포트로 사용할 요소, 기본값은 브라우저의 뷰포트
-    rootMargin: "0px", // root의 마진, 기본값은 0. px나 % 사용
-    threshold: 0.5, // 요소의 몇%가 보일때 작동할 것인지
-  };
-  const observer = new IntersectionObserver(intersectionCalback, options);
-
-  useEffect(() => {
-    if (intersectionRef.current) {
-      observer.observe(intersectionRef.current);
-    }
-    return () => observer.disconnect();
-  }, []);
+  useIntersectionObserver(intersectionRef, intersectionCalback);
 
   useEffect(() => {
     getMovies(pageNumber);
@@ -34,7 +22,7 @@ function Home() {
     <Container>
       <Movies>
         {movies.length === 0 && <Worning>검색 결과가 없습니다.</Worning>}
-        {movies?.map((movie, idx) => (
+        {movies?.map((movie) => (
           <Movie
             key={movie.id + Date.now()}
             movie={movie}
@@ -69,6 +57,20 @@ export const Worning = styled.p`
 `;
 
 export const Intersection = styled.div`
-  background-color: red;
+  background-color: #282828;
   height: 100px;
+  @keyframes appear {
+    from {
+      height: 0px;
+    }
+    99% {
+      height: 0px;
+    }
+    to {
+      height: 100px;
+    }
+  }
+  animation-name: appear;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
 `;
