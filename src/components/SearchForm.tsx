@@ -4,38 +4,40 @@ import styled from "styled-components";
 import { useMovie } from "../hook/useMovie";
 import debouunce from "../utils/debounce";
 import { isZeroLengthArray } from "../utils/utils";
+import HighlightText from "./HighlightText";
 
 function SearchForm() {
   const { movieTitles, getMovies } = useMovie();
   const [autoComplete, setAutoComplete] = useState<string[]>([]);
   const navigate = useNavigate();
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const term = searchInputRef.current?.value;
 
   const searchMovie = (event: FormEvent) => {
     event.preventDefault();
     closeAutoComplete();
-    const term = searchInputRef.current?.value;
     navigate(`search/${term}`);
   };
 
   const closeAutoComplete = () => setAutoComplete([]);
 
-  const filterTitle = (term: string) =>
-    movieTitles.filter((title) => title.toLowerCase().includes(term));
+  const checkFuzzyStringMatch = (term: string) => {
+    const regex = new RegExp(term);
+    return movieTitles.filter((title) => regex.test(title.toLowerCase()));
+  };
 
   const getAutoComplete = (event: FormEvent) => {
     event.preventDefault();
 
     function invokeAutoComplete() {
-      const term = searchInputRef.current?.value;
       if (!term) return setAutoComplete([]);
 
-      let titles = filterTitle(term);
+      let titles = checkFuzzyStringMatch(term);
       if (isZeroLengthArray(titles)) titles = ["검색어 없음"];
       setAutoComplete(titles);
     }
 
-    debouunce(invokeAutoComplete, { timeout: 500 });
+    debouunce(invokeAutoComplete, { timeout: 200 });
   };
 
   useEffect(() => {
@@ -48,12 +50,12 @@ function SearchForm() {
         type={"search"}
         ref={searchInputRef}
         onBlur={closeAutoComplete}
-        onKeyUp={getAutoComplete}
+        onChange={getAutoComplete}
       />
       {autoComplete.length > 0 && (
         <AutoCompleteContainer>
-          {autoComplete.map((a) => (
-            <p key={a}>{a}</p>
+          {autoComplete.map((title) => (
+            <HighlightText title={title} term={term!} />
           ))}
         </AutoCompleteContainer>
       )}
