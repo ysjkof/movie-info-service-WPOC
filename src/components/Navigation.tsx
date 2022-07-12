@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useMe } from "../hook/useMe";
 import { ROUTES } from "../router";
 import { LocationState } from "./Modal";
+import SearchForm from "./SearchForm";
 
 function Navigation() {
   const navigate = useNavigate();
@@ -28,13 +29,6 @@ function Navigation() {
     if (state?.todo === "todo_get_me") getMe();
   }, [state]);
 
-  const searchRef = useRef<HTMLInputElement>(null);
-  const searchMovie = (event: FormEvent) => {
-    event.preventDefault();
-    const title = searchRef.current?.value;
-    navigate(`search/${title}`);
-  };
-
   return (
     <Container>
       <Column>
@@ -42,13 +36,7 @@ function Navigation() {
           <Link to={""}>원티들릭스</Link>
         </Title>
       </Column>
-      {!matchFavorite && (
-        <Column>
-          <form onSubmit={searchMovie}>
-            <input type={"search"} ref={searchRef} />
-          </form>
-        </Column>
-      )}
+      {!matchFavorite && <SearchForm />}
       <Column>
         {matchFavorite && (
           <Button isActive onClick={toggleSearch}>
