@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useMovie } from "../hook/useMovie";
+import debouunce from "../utils/debounce";
 import { isZeroLengthArray } from "../utils/utils";
 
 function SearchForm() {
@@ -17,23 +18,24 @@ function SearchForm() {
     navigate(`search/${term}`);
   };
 
-  const closeAutoComplete = () => {
-    setAutoComplete([]);
-  };
+  const closeAutoComplete = () => setAutoComplete([]);
 
   const filterTitle = (term: string) =>
     movieTitles.filter((title) => title.toLowerCase().includes(term));
 
   const getAutoComplete = (event: FormEvent) => {
     event.preventDefault();
-    const term = searchInputRef.current?.value;
 
-    if (!term) return setAutoComplete([]);
-    let titles = filterTitle(term);
+    function invokeAutoComplete() {
+      const term = searchInputRef.current?.value;
+      if (!term) return setAutoComplete([]);
 
-    if (isZeroLengthArray(titles)) titles = ["검색어 없음"];
+      let titles = filterTitle(term);
+      if (isZeroLengthArray(titles)) titles = ["검색어 없음"];
+      setAutoComplete(titles);
+    }
 
-    setAutoComplete(titles);
+    debouunce(invokeAutoComplete, { timeout: 500 });
   };
 
   useEffect(() => {
@@ -46,7 +48,7 @@ function SearchForm() {
         type={"search"}
         ref={searchInputRef}
         onBlur={closeAutoComplete}
-        onChange={getAutoComplete}
+        onKeyUp={getAutoComplete}
       />
       {autoComplete.length > 0 && (
         <AutoCompleteContainer>
