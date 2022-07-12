@@ -122,7 +122,7 @@ function Home() {
   - [x] 검색어가 없을 시 “검색어 없음”으로 노출 됩니다.
   - [x] API 호출을 최대한 줄입니다. (debounce)
   - [x] 매 호출마다 console.log를 통해 얼마나 호출되었는지 파악할 수 있도록 해주세요.
-  - [ ] fuzzy string matching 지원
+  - [x] fuzzy string matching 지원
 
   예 ) 입력 : 간 추천검색어: 간염, 간암, 간성, 간질병,
 

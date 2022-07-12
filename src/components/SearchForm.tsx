@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useMovie } from "../hook/useMovie";
 import debouunce from "../utils/debounce";
-import { isZeroLengthArray } from "../utils/utils";
+import { getRegex, isZeroLengthArray } from "../utils/utils";
 import HighlightText from "./HighlightText";
 
 function SearchForm() {
@@ -11,24 +11,25 @@ function SearchForm() {
   const [autoComplete, setAutoComplete] = useState<string[]>([]);
   const navigate = useNavigate();
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const term = searchInputRef.current?.value;
 
   const searchMovie = (event: FormEvent) => {
     event.preventDefault();
-    closeAutoComplete();
-    navigate(`search/${term}`);
+    const term = searchInputRef.current?.value;
+    if (term) {
+      closeAutoComplete();
+      navigate(`search/${term}`);
+    }
   };
 
   const closeAutoComplete = () => setAutoComplete([]);
 
   const checkFuzzyStringMatch = (term: string) => {
-    const regex = new RegExp(term);
-    return movieTitles.filter((title) => regex.test(title.toLowerCase()));
+    return movieTitles.filter((title) => getRegex(term).test(title));
   };
 
   const getAutoComplete = (event: FormEvent) => {
     event.preventDefault();
-
+    const term = searchInputRef.current?.value;
     function invokeAutoComplete() {
       if (!term) return setAutoComplete([]);
 
@@ -54,8 +55,12 @@ function SearchForm() {
       />
       {autoComplete.length > 0 && (
         <AutoCompleteContainer>
-          {autoComplete.map((title) => (
-            <HighlightText title={title} term={term!} />
+          {autoComplete.map((title, idx) => (
+            <HighlightText
+              key={idx}
+              title={title}
+              term={searchInputRef.current?.value!}
+            />
           ))}
         </AutoCompleteContainer>
       )}

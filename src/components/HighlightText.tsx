@@ -1,4 +1,6 @@
+import { Fragment } from "react";
 import styled from "styled-components";
+import { getRegex } from "../utils/utils";
 
 interface HighlightTextProps {
   title: string;
@@ -9,8 +11,10 @@ const TITLE_IDENTIFIER = "!@#";
 const TITLE_SEPERATOR = `,${TITLE_IDENTIFIER},`;
 
 function HighlightText({ title, term }: HighlightTextProps) {
-  const injectIdentifier = () =>
-    title.toLocaleLowerCase().replaceAll(term, TITLE_SEPERATOR);
+  const getOriginalTerm = (term: string) => title.match(getRegex(term)) ?? "";
+
+  const injectIdentifier = (term: string) =>
+    title.replaceAll(term, TITLE_SEPERATOR);
 
   const splitTitle = (title: string) => title.split(",");
 
@@ -18,19 +22,27 @@ function HighlightText({ title, term }: HighlightTextProps) {
     return !!!splitedTitle[0] ? splitedTitle.slice(1) : splitedTitle;
   };
 
-  const injectedTitle = injectIdentifier();
-  const split = splitTitle(injectedTitle);
-  const processedTitle = removeEmptyValue(split);
+  const [originalTerm] = getOriginalTerm(term);
+
+  // const injectedTitle = injectIdentifier(originalTerm);
+  // const split = splitTitle(injectedTitle);
+  // const processedTitle = removeEmptyValue(split);
+
+  const processedTitle = removeEmptyValue(
+    splitTitle(injectIdentifier(originalTerm))
+  );
 
   return (
     <Container>
-      {processedTitle.map((word, idx) =>
-        word === TITLE_IDENTIFIER ? (
-          <HighlightSpan>{term}</HighlightSpan>
-        ) : (
-          <span>{word}</span>
-        )
-      )}
+      {processedTitle.map((word, idx) => (
+        <Fragment key={idx}>
+          {word === TITLE_IDENTIFIER ? (
+            <HighlightSpan>{getOriginalTerm(term)[0]}</HighlightSpan>
+          ) : (
+            <span>{word}</span>
+          )}
+        </Fragment>
+      ))}
     </Container>
   );
 }
