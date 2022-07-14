@@ -40,7 +40,7 @@ class MovieServices {
   getManyByTitle = async (title: string): Promise<MovieType[]> => {
     let data;
     await axiosMovie
-      .get("", { params: { title } })
+      .get(`?q=${title}`)
       .then((_response) => {
         data = _response.data;
       })
