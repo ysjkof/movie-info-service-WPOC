@@ -132,6 +132,8 @@ function Home() {
 
 - [git flow 사용법](https://blckchainetc.tistory.com/352)
 - [Github markdown formatting syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
+- [git book](https://git-scm.com/book/ko/v2)
+- [git - 간편 안내서](http://rogerdudler.github.io/git-guide/index.ko.html)
 
 **패키지**
 
