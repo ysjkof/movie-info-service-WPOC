@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Movie from "../components/Movie";
+import MovieThumbnail from "../components/MovieThumbnail";
 import { useMovie } from "../hook/useMovie";
-import { Container, Movies, Worning } from "./Home";
+import { Container, ContainerThumbnail, Worning } from "./Home";
 
 function Search() {
   const { movies, searchMovieTitle, getMovie } = useMovie();
@@ -14,16 +14,16 @@ function Search() {
 
   return (
     <Container>
-      <Movies>
+      <ContainerThumbnail>
         {movies.length === 0 && <Worning>검색 결과가 없습니다.</Worning>}
         {movies?.map((movie, idx) => (
-          <Movie
+          <MovieThumbnail
             key={movie.id + idx}
             movie={movie}
-            onClick={() => getMovie(movie.id)}
+            openMovie={() => getMovie(movie.id)}
           />
         ))}
-      </Movies>
+      </ContainerThumbnail>
     </Container>
   );
 }

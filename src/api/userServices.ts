@@ -18,7 +18,7 @@ class UserServices {
         data = _response.data[0];
       })
       .catch((error) => console.error(error))
-      .then(() => console.log("Done getUserByEmail"));
+      .then(() => console.log("Done getUser"));
     // @ts-ignore
     return data;
   };
@@ -32,7 +32,7 @@ class UserServices {
         lastUserId = _response.data.sort((a, b) => b.id - a.id)[0].id ?? 1;
       })
       .catch((error) => console.error(error))
-      .then(() => console.log("Done getUserByEmail"));
+      .then(() => console.log("Done getIdOfLastUser"));
     return lastUserId;
   };
 
@@ -43,7 +43,7 @@ class UserServices {
         console.warn("postUser status code: ", _response.status);
       })
       .catch((error) => console.error(error))
-      .then(() => console.log("Done getUserByEmail"));
+      .then(() => console.log("Done postUser"));
   };
 }
 

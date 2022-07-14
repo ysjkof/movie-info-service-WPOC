@@ -1,10 +1,12 @@
 import { useEffect } from "react";
-import Movie from "../components/Movie";
+import { useNavigate } from "react-router-dom";
+import MovieThumbnail from "../components/MovieThumbnail";
 import { useMe } from "../hook/useMe";
-import { useMovie } from "../hook/useMovie";
-import { Container, Movies, Worning } from "./Home";
+import { MovieType, useMovie } from "../hook/useMovie";
+import { Container, ContainerThumbnail, Worning } from "./Home";
 
 function Favorite() {
+  const navigate = useNavigate();
   const { movies, getMovie, getLike } = useMovie();
   const { me, getMe } = useMe();
 
@@ -16,18 +18,23 @@ function Favorite() {
     getLike(me?.likes ?? [0]);
   }, [me]);
 
+  const openMovie = (movieId: number, movie: MovieType) => {
+    getMovie(movieId);
+    navigate("", { state: { hasModal: true, movie } });
+  };
+
   return (
     <Container>
-      <Movies>
+      <ContainerThumbnail>
         {movies.length === 0 && <Worning>즐겨찾기 목록이 없습니다.</Worning>}
         {movies?.map((movie, idx) => (
-          <Movie
+          <MovieThumbnail
             key={movie.id + idx}
             movie={movie}
-            onClick={() => getMovie(movie.id)}
+            openMovie={() => openMovie(movie.id, movie)}
           />
         ))}
-      </Movies>
+      </ContainerThumbnail>
     </Container>
   );
 }

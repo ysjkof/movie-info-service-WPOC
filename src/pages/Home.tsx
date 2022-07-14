@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Movie from "../components/Movie";
+import { ToDoInModal } from "../components/Modal";
+import MovieThumbnail from "../components/MovieThumbnail";
 import useIntersectionObserver from "../hook/useIntersectionObserver";
-import { useMovie } from "../hook/useMovie";
+import { MovieType, useMovie } from "../hook/useMovie";
 
 function Home() {
+  const navigate = useNavigate();
   const { getMovies, movies, getMovie } = useMovie();
   const [pageNumber, setPageNumber] = useState(1);
 
@@ -18,18 +21,25 @@ function Home() {
     getMovies(pageNumber);
   }, [pageNumber]);
 
+  const openMovie = (movieId: number, movie: MovieType) => {
+    getMovie(movieId);
+    navigate("", {
+      state: { hasModal: true, todo: ToDoInModal.openMovie, movie },
+    });
+  };
+
   return (
     <Container>
-      <Movies>
+      <ContainerThumbnail>
         {movies.length === 0 && <Worning>검색 결과가 없습니다.</Worning>}
         {movies?.map((movie) => (
-          <Movie
+          <MovieThumbnail
             key={movie.id + Date.now()}
             movie={movie}
-            openMovie={() => getMovie(movie.id)}
+            openMovie={() => openMovie(movie.id, movie)}
           />
         ))}
-      </Movies>
+      </ContainerThumbnail>
       <Intersection ref={intersectionRef} />
     </Container>
   );
@@ -43,7 +53,7 @@ export const Container = styled.div`
   height: 100vh;
 `;
 
-export const Movies = styled.div`
+export const ContainerThumbnail = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 0 4rem;

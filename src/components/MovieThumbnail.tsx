@@ -6,7 +6,7 @@ interface MovieProps {
   openMovie: () => void;
 }
 
-function Movie({ movie, openMovie }: MovieProps) {
+function MovieThumbnail({ movie, openMovie }: MovieProps) {
   return (
     <Container onClick={openMovie}>
       <CoverImg src={movie.medium_cover_image} />
@@ -14,7 +14,7 @@ function Movie({ movie, openMovie }: MovieProps) {
     </Container>
   );
 }
-export default Movie;
+export default MovieThumbnail;
 
 const Container = styled.div`
   width: 240px;

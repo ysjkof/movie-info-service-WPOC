@@ -3,7 +3,7 @@ import { Link, useLocation, useMatch, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useMe } from "../hook/useMe";
 import { ROUTES } from "../router";
-import { LocationState } from "./Modal";
+import { LocationState, ToDoInModal } from "./Modal";
 import SearchForm from "./SearchForm";
 
 function Navigation() {
@@ -15,7 +15,7 @@ function Navigation() {
 
   const goToFavorite = () => {
     if (!me) return;
-    navigate(ROUTES.favorite, { state: undefined });
+    navigate(ROUTES.favorite, { state: false });
   };
   const toggleSearch = () => {
     navigate("");
@@ -25,8 +25,7 @@ function Navigation() {
   }, []);
 
   useEffect(() => {
-    console.log("navi state", state);
-    if (state?.todo === "todo_get_me") getMe();
+    if (state?.todo === ToDoInModal.refreshToken) getMe();
   }, [state]);
 
   return (
@@ -54,7 +53,9 @@ function Navigation() {
           <Button
             isActive={!me}
             onClick={() =>
-              navigate("", { state: { hasModal: true, todo: "로그인" } })
+              navigate("", {
+                state: { hasModal: true, todo: ToDoInModal.login },
+              })
             }
           >
             로그인
