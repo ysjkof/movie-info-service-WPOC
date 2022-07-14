@@ -10,7 +10,6 @@ const useIntersectionObserver = (
   ref: React.RefObject<HTMLDivElement>,
   calback: () => void
 ) => {
-  // @ts-ignore
   const intersectionCalback = ([entry]: IntersectionObserverEntry[]) => {
     if (entry.isIntersecting) calback();
   };
@@ -22,8 +21,6 @@ const useIntersectionObserver = (
     }
     return () => observer.disconnect();
   }, [ref]);
-
-  return [ref];
 };
 
 export default useIntersectionObserver;
