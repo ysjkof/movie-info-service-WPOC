@@ -1,47 +1,79 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { userServices } from "../api/userServices";
+import { useMe } from "../hook/useMe";
 import { MovieType } from "../hook/useMovie";
-import { getLoggedInUser } from "../utils/useAuth";
+import { setUserToLocalStorage } from "../utils/useAuth";
 
 interface MovieProps {
   movie: MovieType;
 }
 
 function MovieCard({ movie }: MovieProps) {
-  const loggedInUser = getLoggedInUser();
+  const { me, getMe } = useMe();
   const [like, setLikes] = useState(false);
   const [favorite, setFavorite] = useState(false);
 
-  const checkLike = () => loggedInUser?.likes.find((id) => id === movie.id);
-  const checkFavorite = () =>
-    loggedInUser?.favorites.find((id) => id === movie.id);
+  const checkLike = (likes: number[] | undefined) =>
+    !!likes?.find((id) => id === movie.id);
+  const checkFavorite = (favorites: number[] | undefined) =>
+    !!favorites?.find((id) => id === movie.id);
 
-  const toggleLike = () => {};
-  const toggleFavorite = () => {};
+  const toggleLike = async () => {
+    if (!me) return;
+    const likes = checkLike(me.likes)
+      ? me.likes.filter((like) => like !== movie.id)
+      : [...me.likes!, movie.id];
+
+    const user = await userServices.patchUser({
+      id: me.id,
+      likes,
+    });
+    setUserToLocalStorage(user);
+    getMe();
+  };
+
+  const toggleFavorite = async () => {
+    if (!me) return;
+    const favorites = checkFavorite(me.favorites)
+      ? me.favorites.filter((favorite) => favorite !== movie.id)
+      : [...me.favorites!, movie.id];
+
+    const user = await userServices.patchUser({
+      id: me.id,
+      favorites,
+    });
+    setUserToLocalStorage(user);
+    getMe();
+  };
 
   useEffect(() => {
-    const hasLike = checkLike();
-    if (hasLike) setLikes(!!hasLike);
-  }, [loggedInUser?.likes]);
+    if (me?.likes) {
+      const hasLike = checkLike(me.likes);
+      setLikes(hasLike);
+    }
+  }, [me?.likes]);
 
   useEffect(() => {
-    const hasFavorite = checkFavorite();
-    if (hasFavorite) setFavorite(!!hasFavorite);
-  }, [loggedInUser?.favorites]);
+    if (me?.favorites) {
+      const hasFavorite = checkFavorite(me.favorites);
+      setFavorite(hasFavorite);
+    }
+  }, [me?.favorites]);
+
+  useEffect(() => {
+    getMe();
+  }, []);
 
   return (
     <Container backgroundImgUrl={movie.large_cover_image}>
       <Description>
         <Controller>
-          <Button
-            isActivate={!!loggedInUser?.email}
-            isSelect={like}
-            onClick={toggleLike}
-          >
+          <Button isActivate={!!me?.email} isSelect={like} onClick={toggleLike}>
             Like
           </Button>
           <Button
-            isActivate={!!loggedInUser?.email}
+            isActivate={!!me?.email}
             isSelect={favorite}
             onClick={toggleFavorite}
           >

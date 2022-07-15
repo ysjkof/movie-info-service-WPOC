@@ -10,7 +10,6 @@ function Home() {
   const navigate = useNavigate();
   const { getMovies, movies, getMovie } = useMovie();
   const [pageNumber, setPageNumber] = useState(1);
-
   const intersectionRef = useRef<HTMLDivElement>(null);
   const intersectionCalback = () => {
     setPageNumber((prev) => prev + 1);
