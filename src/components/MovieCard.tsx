@@ -8,12 +8,13 @@ interface MovieProps {
 }
 
 function MovieCard({ movie }: MovieProps) {
-  const { email, likes, favorites } = getLoggedInUser();
+  const loggedInUser = getLoggedInUser();
   const [like, setLikes] = useState(false);
   const [favorite, setFavorite] = useState(false);
 
-  const checkLike = () => likes.find((id) => id === movie.id);
-  const checkFavorite = () => favorites.find((id) => id === movie.id);
+  const checkLike = () => loggedInUser?.likes.find((id) => id === movie.id);
+  const checkFavorite = () =>
+    loggedInUser?.favorites.find((id) => id === movie.id);
 
   const toggleLike = () => {};
   const toggleFavorite = () => {};
@@ -21,22 +22,26 @@ function MovieCard({ movie }: MovieProps) {
   useEffect(() => {
     const hasLike = checkLike();
     if (hasLike) setLikes(!!hasLike);
-  }, [likes]);
+  }, [loggedInUser?.likes]);
 
   useEffect(() => {
     const hasFavorite = checkFavorite();
     if (hasFavorite) setFavorite(!!hasFavorite);
-  }, [favorites]);
+  }, [loggedInUser?.favorites]);
 
   return (
     <Container backgroundImgUrl={movie.large_cover_image}>
       <Description>
         <Controller>
-          <Button isActivate={!!email} isSelect={like} onClick={toggleLike}>
+          <Button
+            isActivate={!!loggedInUser?.email}
+            isSelect={like}
+            onClick={toggleLike}
+          >
             Like
           </Button>
           <Button
-            isActivate={!!email}
+            isActivate={!!loggedInUser?.email}
             isSelect={favorite}
             onClick={toggleFavorite}
           >
@@ -100,6 +105,7 @@ const Controller = styled.div`
 `;
 
 const Button = styled.div<{ isSelect: boolean; isActivate: boolean }>`
+  display: ${(props) => !props.isActivate && "none"};
   background-color: ${(props) => (props.isActivate ? "black" : "#00000078")};
   color: ${(props) => (props.isSelect ? "red" : "gray")};
   border: none;
