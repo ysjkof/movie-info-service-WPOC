@@ -24,11 +24,12 @@ export interface LocationState {
 function Modal() {
   const navigate = useNavigate();
   const location = useLocation();
+  console.log(location);
   const [openModal, setOpenModal] = useState(false);
   const { state } = location as { state: LocationState };
 
   const closeModal = () => {
-    navigate("", { state: { hasModal: false } });
+    navigate(location.pathname, { state: { hasModal: false } });
   };
 
   useEffect(() => {
