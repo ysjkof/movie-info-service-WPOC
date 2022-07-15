@@ -45,6 +45,20 @@ class UserServices {
       .catch((error) => console.error(error))
       .then(() => console.log("Done postUser"));
   };
+
+  patchUser = async (user: Partial<User>) => {
+    let data: User;
+    await axiosUser
+      .patch("1", user)
+      .then((_response) => {
+        data = _response.data;
+        console.warn("patchUser status code: ", _response.status);
+      })
+      .catch((error) => console.error(error))
+      .then(() => console.log("Done patchUser"));
+    // @ts-ignore
+    return data;
+  };
 }
 
 export const userServices = new UserServices();
