@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { validInput } from "../utils/useAuth";
+import { ToDoInModal } from "./Modal";
 
 export interface Errors {
   email: boolean;
@@ -45,7 +46,9 @@ function FormTemplate({ title, handleSubmit }: FormTemplateProps) {
   const goToPage = () =>
     navigate("", { state: { hasModal: true, todo: GO_TO } });
   const goToMain = () =>
-    navigate("", { state: { hasModal: false, todo: "todo_get_me" } });
+    navigate("", {
+      state: { hasModal: false, todo: ToDoInModal.refreshToken },
+    });
 
   return (
     <Form
