@@ -3,7 +3,7 @@ import {
   getLoggedInUser,
   removeUserFromLocalStorage,
   User,
-} from "../utils/useAuth";
+} from "../services/useAuth";
 
 export const useMe = () => {
   const [me, setMe] = useState<User | undefined>(undefined);

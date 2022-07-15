@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { MovieType } from "../hook/useMovie";
-import { getLoggedInUser } from "../utils/useAuth";
+import { getLoggedInUser } from "../services/useAuth";
 
 interface MovieProps {
   movie: MovieType;

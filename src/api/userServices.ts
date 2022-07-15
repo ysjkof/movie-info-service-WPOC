@@ -1,6 +1,6 @@
 import axios from "axios";
 import { USER_URL } from "../constant/constant";
-import { User } from "../utils/useAuth";
+import { User } from "../models/userModel";
 
 const axiosUser = axios.create({
   baseURL: USER_URL,

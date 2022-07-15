@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { userServices } from "../api/userServices";
 import { useMe } from "../hook/useMe";
 import { MovieType } from "../hook/useMovie";
-import { setUserToLocalStorage } from "../utils/useAuth";
+import { setUserToLocalStorage } from "../services/useAuth";
 
 interface MovieProps {
   movie: MovieType;

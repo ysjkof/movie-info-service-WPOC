@@ -1,9 +1,7 @@
 import { FormEvent } from "react";
-import {
-  checkError,
-  setUserToLocalStorage,
-  createAccountMutation,
-} from "../utils/useAuth";
+import { EMAIL } from "../constant/constant";
+import { createAccount } from "../models/userModel";
+import { checkError, setUserToLocalStorage } from "../services/useAuth";
 import FormTemplate, { SubmitParameter } from "./FormTemplate";
 
 export interface Errors {
@@ -24,19 +22,19 @@ function CreateAccountForm() {
     const email = emailRef.current?.value!;
     const password = passwordRef.current?.value!;
 
-    const createAccountResults = await createAccountMutation({
+    const createAccountResults = await createAccount({
       email,
       password,
     });
 
-    if (!(createAccountResults.type === "pass"))
+    if (!createAccountResults.user)
       return setErrors((prevState) => ({
         ...prevState,
-        [createAccountResults.type]: true,
-        worning: createAccountResults.worning,
+        [EMAIL]: true, // 할일: 고쳐
+        worning: "error",
       }));
 
-    setUserToLocalStorage(createAccountResults.user!);
+    setUserToLocalStorage(createAccountResults.user);
     goToMain();
   };
 

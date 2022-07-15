@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import MovieThumbnail from "../components/MovieThumbnail";
 import { useMe } from "../hook/useMe";
 import { MovieType, useMovie } from "../hook/useMovie";
+import { getUser } from "../models/userModel";
 import { Container, ContainerThumbnail, Worning } from "./Home";
 
 function Favorite() {

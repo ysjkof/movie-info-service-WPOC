@@ -18,7 +18,23 @@
       "likes": [],
       "favorites": [],
       "id": 2,
-      "email": "test1@t.co",
+      "email": "123test66@t.cod",
+      "password": "asd123!@"
+    },
+    {
+      "watched": [],
+      "likes": [],
+      "favorites": [],
+      "id": 3,
+      "email": "123test66@t.coda",
+      "password": "asd123!@"
+    },
+    {
+      "watched": [],
+      "likes": [],
+      "favorites": [],
+      "id": 4,
+      "email": "123test66@t.codab",
       "password": "asd123!@"
     }
   ],

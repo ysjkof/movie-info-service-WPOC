@@ -31,13 +31,13 @@ function Home() {
     <Container>
       <ContainerThumbnail>
         {movies.length === 0 && <Worning>검색 결과가 없습니다.</Worning>}
-        {movies?.map((movie) => (
+        {/* {movies?.map((movie) => (
           <MovieThumbnail
             key={movie.id + Date.now()}
             movie={movie}
             openMovie={() => openMovie(movie.id, movie)}
           />
-        ))}
+        ))} */}
       </ContainerThumbnail>
       <Intersection ref={intersectionRef} />
     </Container>
