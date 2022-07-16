@@ -1,7 +1,7 @@
 import { FormEvent } from "react";
 import { EMAIL } from "../constant/constant";
-import { createAccount } from "../models/userModel";
-import { checkError, setUserToLocalStorage } from "../services/useAuth";
+import { checkError } from "../services/formServices";
+import { createAccount, setUserLocalStorage } from "../services/userServices";
 import FormTemplate, { SubmitParameter } from "./FormTemplate";
 
 export interface Errors {
@@ -34,7 +34,7 @@ function CreateAccountForm() {
         worning: "error",
       }));
 
-    setUserToLocalStorage(createAccountResults.user);
+    setUserLocalStorage(createAccountResults.user);
     goToMain();
   };
 

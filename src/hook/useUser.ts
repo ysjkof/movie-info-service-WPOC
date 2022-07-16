@@ -1,13 +1,26 @@
 import { useEffect, useState } from "react";
-import { User } from "../services/useAuth";
+import { User } from "../models/userModel";
+import {
+  getUserLocalStorage,
+  removeUserLocalStorage,
+} from "../services/userServices";
 
-export default function useUser() {
-  const [user, setUser] = useState<User>();
+export const useMe = () => {
+  const [me, setMe] = useState<User | undefined | null>(undefined);
 
-  const getLoggedInUser = async (email: string, password: string) => {
-    // 로컬스토리지에서 유저 불러와서 setUser
+  const getMe = () => {
+    const user = getUserLocalStorage();
+    setMe(user);
   };
 
-  useEffect(() => {}, []);
-  return { user };
-}
+  const logout = () => {
+    removeUserLocalStorage();
+    setMe(null);
+  };
+
+  useEffect(() => {
+    getMe();
+  }, []);
+
+  return { me, getMe, logout };
+};

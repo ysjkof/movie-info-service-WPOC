@@ -1,7 +1,7 @@
 import { FormEvent } from "react";
 import { EMAIL } from "../constant/constant";
-import { login } from "../models/userModel";
-import { checkError, setUserToLocalStorage } from "../services/useAuth";
+import { checkError } from "../services/formServices";
+import { login, setUserLocalStorage } from "../services/userServices";
 import FormTemplate, { SubmitParameter } from "./FormTemplate";
 
 export interface Errors {
@@ -31,7 +31,7 @@ function LoginForm() {
         worning: "에러",
       }));
 
-    setUserToLocalStorage(loginResults.user!);
+    setUserLocalStorage(loginResults.user!);
     goToMain();
   };
 

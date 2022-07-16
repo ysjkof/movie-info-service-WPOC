@@ -27,18 +27,17 @@ function SearchForm() {
     return movieTitles.filter((title) => getRegex(term).test(title));
   };
 
+  const invokeAutoComplete = (term: string | undefined) => {
+    if (!term) return setAutoComplete([]);
+    let titles = checkFuzzyStringMatch(term);
+    if (isZeroLengthArray(titles)) titles = ["검색어 없음"];
+    setAutoComplete(titles);
+  };
+
   const getAutoComplete = (event: FormEvent) => {
     event.preventDefault();
     const term = searchInputRef.current?.value;
-    function invokeAutoComplete() {
-      if (!term) return setAutoComplete([]);
-
-      let titles = checkFuzzyStringMatch(term);
-      if (isZeroLengthArray(titles)) titles = ["검색어 없음"];
-      setAutoComplete(titles);
-    }
-
-    debouunce(invokeAutoComplete, { timeout: 200 });
+    debouunce(() => invokeAutoComplete(term), { timeout: 200 });
   };
 
   useEffect(() => {
@@ -73,12 +72,11 @@ const Form = styled.form`
   position: relative;
 `;
 const AutoCompleteContainer = styled.div`
+  position: absolute;
+  z-index: 15;
   width: 100%;
   display: flex;
   flex-direction: column;
-  position: absolute;
-  background-color: white;
   color: black;
-  p {
-  }
+  background-color: white;
 `;

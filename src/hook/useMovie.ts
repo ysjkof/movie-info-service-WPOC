@@ -1,34 +1,6 @@
 import { useState } from "react";
-import { movieServices } from "../api/movieServices";
 import { MOVIE_TAKE_NUMBER } from "../constant/constant";
-
-export interface MovieType {
-  id: number;
-  imdb_code: string;
-  title: string;
-  title_english: string;
-  title_long: string;
-  slug: string;
-  year: number;
-  rating: number;
-  runtime: number;
-  genres: string[];
-  summary: string;
-  description_full: string;
-  synopsis: string;
-  yt_trailer_code: string;
-  language: string;
-  mpa_rating: string;
-  background_image: string;
-  background_image_original: string;
-  small_cover_image: string;
-  medium_cover_image: string;
-  large_cover_image: string;
-  state: string;
-  date_uploaded: string;
-  date_uploaded_unix: number;
-  like: boolean;
-}
+import movieServices, { MovieType } from "../models/movieModel";
 
 export interface PaginationOption {
   take: number;
@@ -47,15 +19,17 @@ export const useMovie = () => {
   const [allMovies, setAllMovies] = useState<MovieType[]>([]);
   const [movieTitles, setMovieTitles] = useState<string[]>([]);
   const [movies, setMovies] = useState<MovieType[]>([]);
+  const [likeMovies, setLikeMovies] = useState<(MovieType | undefined)[]>([]);
   const [movie, setMovie] = useState<MovieType>();
+
+  const take = MOVIE_TAKE_NUMBER;
 
   const extractTitle = (movies: MovieType[]) =>
     movies.map((movie) => movie.title);
 
   const getMovies = async (page = 1) => {
-    const take = MOVIE_TAKE_NUMBER;
     if (emptyArr(allMovies)) {
-      const totalMovies = await movieServices.getMany();
+      const totalMovies = await movieServices.getAll();
       const paginationMovie = sliceMovies(totalMovies, { take, page });
       setAllMovies(totalMovies);
       const movieTitles = extractTitle(totalMovies);
@@ -72,24 +46,25 @@ export const useMovie = () => {
   };
 
   const searchMovieTitle = async (title: string) => {
-    const searchedMovies = await movieServices.getManyByTitle(title);
+    const searchedMovies = await movieServices.getManyByTerm(title);
     return setMovies(searchedMovies);
   };
 
-  const getLike = async (likeIds: number[]) => {
-    likeIds = [8462, 13106]; // 임시로 like movie id 하드코딩
+  const getLikes = async (likeIds: number[]) => {
     const likes = await Promise.all(
       likeIds.map(async (id) => await movieServices.getOneById(id))
     );
-    setMovies(likes);
+    setLikeMovies(likes);
   };
+
   return {
     movies,
     getMovies,
     getMovie,
     movie,
     searchMovieTitle,
-    getLike,
+    likeMovies,
+    getLikes,
     movieTitles,
   };
 };

@@ -1,48 +1,6 @@
 import { axiosInstance } from "../api/axiosInstance";
-import { GetSort, HttpRequest } from "../api/httpRequest";
-import { LoginInput } from "../constant/constant";
-
-const userAxios = new HttpRequest<User>(axiosInstance, "users");
-
-export const QUERY_FIELD = {
-  title: "title",
-};
-
-// const printFinish = (functionName: string) =>
-//   `수행완료(${endPoint}>${functionName})`;
-
-export const getUserByEmail = async (email: string) => {
-  const response = await userAxios.getByEmail("email", email);
-  return response.data.length === 0 ? false : response.data[0];
-};
-
-export const getUser = async () => {
-  const b = await userAxios.getAll();
-  console.log("userModel", b);
-  return b.data;
-};
-export const getUserById = async (id: number) => {
-  const b = await userAxios.getOneById(id);
-  console.log("userModel", b);
-  return b.data;
-};
-
-const getUserByFieldAndSort = async ({ direction, queryField }: GetSort) => {
-  const response = await userAxios.getSort({ direction, queryField });
-  return response.data[0];
-};
-
-///
-
-export const login = async ({ email, password }: LoginInput) => {
-  const user = await getUserByEmail(email);
-  if (!user) return { error: "가입되지 않은 이메일입니다" };
-
-  if (user.password !== password) return { error: "비밀번호를 확인해주세요" };
-
-  // return 토큰을 반환해야하지만 로컬환경이라 로컬스토리지에 저장
-  return { user };
-};
+import { GetSort, HttpRequest, Log } from "../api/httpRequest";
+import { END_POINT } from "../constant/constant";
 
 type Watched = { id: number; numberOfWached: number }[];
 export class User {
@@ -56,18 +14,64 @@ export class User {
   ) {}
 }
 
-export const createAccount = async ({ email, password }: LoginInput) => {
-  const exist = await getUserByEmail(email);
-  if (exist) return { error: "가입할 수 없는 email입니다" };
+const usersAxios = new HttpRequest<User>(axiosInstance, END_POINT.users);
 
-  const { id: largestUserId } = await getUserByFieldAndSort({
-    direction: "desc",
-    queryField: "id",
-  });
+class UserModels {
+  getUserByEmail = async (email: string) => {
+    const response = await usersAxios
+      .getByEmail("email", email)
+      .catch((error) => console.error(error))
+      .finally(() => usersAxios.log({ functionName: "getUserByEmail" }));
+    return response?.data.length === 0 ? false : response?.data[0];
+  };
 
-  const response = await userAxios.post(
-    new User(largestUserId + 1, email, password)
-  );
+  getUser = async () => {
+    const response = await usersAxios
+      .getAll()
+      .catch((error) => console.error(error))
+      .finally(() => usersAxios.log({ functionName: "getUser" }));
+    return response?.data;
+  };
 
-  return { user: response.data };
-};
+  getUserById = async (id: number) => {
+    const response = await usersAxios
+      .getOneById(id)
+      .catch((error) => console.error(error))
+      .finally(() => usersAxios.log({ functionName: "getUserById" }));
+    return response?.data;
+  };
+
+  getUserByFieldAndSort = async ({ direction, queryField }: GetSort) => {
+    const response = await usersAxios
+      .getSort({ direction, queryField })
+      .catch((error) => console.error(error))
+      .finally(() => usersAxios.log({ functionName: "getUserByFieldAndSort" }));
+    return response?.data[0];
+  };
+
+  saveUser = async (user: User) => {
+    const response = await usersAxios
+      .post(user)
+      .catch((error) => console.error(error))
+      .finally(() => usersAxios.log({ functionName: "saveUser" }));
+
+    return { user: response?.data };
+  };
+
+  updateUser = async (userId: number, user: User) => {
+    const response = await usersAxios
+      .patch(userId, user)
+      .catch((error) => console.error(error))
+      .finally(() => usersAxios.log({ functionName: "updateUser" }));
+
+    return { user: response?.data };
+  };
+
+  log = (log: Log) =>
+    usersAxios.log({
+      functionName: `in model > ${log.functionName}`,
+      message: log.message,
+    });
+}
+
+export default new UserModels();

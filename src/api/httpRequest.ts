@@ -1,6 +1,9 @@
 import { AxiosInstance } from "axios";
-import { QUERY_FIELD } from "../models/userModel";
 
+export interface Log {
+  functionName: string;
+  message?: string;
+}
 interface GetByTerm {
   term: string;
   queryField: string; // 할일: 제네릭
@@ -18,7 +21,14 @@ export class HttpRequest<T> {
     this.service;
     this.endPoint;
   }
-  // private readonly QUERY_FIELD = { date: "date" };
+
+  // util
+  log = ({ functionName, message }: Log) =>
+    console.log(
+      `수행완료(${this.endPoint} >  ${functionName}${
+        message ? ` : ${message}` : ""
+      })`
+    );
 
   // get
   getAll = () => this.service.get<T[]>(this.endPoint);

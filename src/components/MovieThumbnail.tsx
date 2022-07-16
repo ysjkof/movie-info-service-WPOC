@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { MovieType } from "../hook/useMovie";
-import { getLoggedInUser } from "../services/useAuth";
+import { MovieType } from "../models/movieModel";
+import { getUserLocalStorage } from "../services/userServices";
 
 interface MovieProps {
   movie: MovieType;
@@ -8,10 +8,10 @@ interface MovieProps {
 }
 
 function MovieThumbnail({ movie, openMovie }: MovieProps) {
-  const loggedInUser = getLoggedInUser();
+  const loggedInUser = getUserLocalStorage();
 
   const checkHasLike = (likes: number[], movieId: number) =>
-    !!likes.find((like) => like === movieId);
+    !!likes?.find((like) => like === movieId);
 
   return (
     <Container onClick={openMovie}>
@@ -28,6 +28,7 @@ export default MovieThumbnail;
 const Container = styled.div`
   position: relative;
   width: 240px;
+  height: 360px;
 `;
 const CoverImg = styled.img`
   width: 100%;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { MovieType } from "../hook/useMovie";
+import { MovieType } from "../models/movieModel";
 import CreateAccountForm from "./CreateAccountForm";
 import LoginForm from "./LoginForm";
 import MovieCard from "./MovieCard";
@@ -24,7 +24,7 @@ export interface LocationState {
 function Modal() {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
+
   const [openModal, setOpenModal] = useState(false);
   const { state } = location as { state: LocationState };
 

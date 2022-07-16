@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { userServices } from "../api/userServices";
-import { useMe } from "../hook/useMe";
-import { MovieType } from "../hook/useMovie";
-import { setUserToLocalStorage } from "../services/useAuth";
+// import { userServices } from "../api/userApi";
+import { useMe } from "../hook/useUser";
+import { MovieType } from "../models/movieModel";
+import {
+  setUserLocalStorage,
+  toggleFavorite,
+  toggleLike,
+} from "../services/userServices";
 
 interface MovieProps {
   movie: MovieType;
@@ -19,31 +23,29 @@ function MovieCard({ movie }: MovieProps) {
   const checkFavorite = (favorites: number[] | undefined) =>
     !!favorites?.find((id) => id === movie.id);
 
-  const toggleLike = async () => {
+  const invokeToggleLike = async () => {
     if (!me) return;
-    const likes = checkLike(me.likes)
-      ? me.likes.filter((like) => like !== movie.id)
-      : [...me.likes!, movie.id];
 
-    const user = await userServices.patchUser({
-      id: me.id,
-      likes,
+    const user = await toggleLike({
+      userId: me.id,
+      movieId: movie.id,
     });
-    setUserToLocalStorage(user);
+
+    if (!user) throw new Error("Not found user");
+    setUserLocalStorage(user);
     getMe();
   };
 
-  const toggleFavorite = async () => {
+  const invokeToggleFavorite = async () => {
     if (!me) return;
-    const favorites = checkFavorite(me.favorites)
-      ? me.favorites.filter((favorite) => favorite !== movie.id)
-      : [...me.favorites!, movie.id];
 
-    const user = await userServices.patchUser({
-      id: me.id,
-      favorites,
+    const user = await toggleFavorite({
+      userId: me.id,
+      movieId: movie.id,
     });
-    setUserToLocalStorage(user);
+
+    if (!user) throw new Error("Not found user");
+    setUserLocalStorage(user);
     getMe();
   };
 
@@ -69,13 +71,17 @@ function MovieCard({ movie }: MovieProps) {
     <Container backgroundImgUrl={movie.large_cover_image}>
       <Description>
         <Controller>
-          <Button isActivate={!!me?.email} isSelect={like} onClick={toggleLike}>
+          <Button
+            isActivate={!!me?.email}
+            isSelect={like}
+            onClick={invokeToggleLike}
+          >
             Like
           </Button>
           <Button
             isActivate={!!me?.email}
             isSelect={favorite}
-            onClick={toggleFavorite}
+            onClick={invokeToggleFavorite}
           >
             Favorite
           </Button>

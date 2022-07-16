@@ -2,22 +2,8 @@ import { Errors } from "../components/LoginForm";
 import {
   ERROR_MESSAGES,
   InputNames,
-  LOCAL_STORAGE_KEY,
   LOGIN_INPUT_REGEX,
 } from "../constant/constant";
-import { User } from "../models/userModel";
-
-export const setUserToLocalStorage = (user: User) => {
-  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(user));
-};
-
-export const getLoggedInUser = (): User => {
-  return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)!);
-};
-
-export const removeUserFromLocalStorage = () => {
-  localStorage.removeItem(LOCAL_STORAGE_KEY);
-};
 
 interface Validation {
   name: InputNames;
