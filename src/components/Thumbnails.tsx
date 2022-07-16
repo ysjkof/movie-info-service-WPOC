@@ -5,7 +5,7 @@ import useIntersectionObserver from "../hook/useIntersectionObserver";
 import { useMovie } from "../hook/useMovie";
 import { MovieType } from "../models/movieModel";
 import { ToDoInModal } from "./Modal";
-import MovieThumbnail from "./MovieThumbnail";
+import MovieThumbnail from "./Thumbnail";
 
 interface MovieProps {
   movies: (MovieType | undefined)[];
