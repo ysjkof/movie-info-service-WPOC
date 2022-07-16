@@ -1,7 +1,7 @@
-import { FormEvent, useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Link, useLocation, useMatch, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useMe } from "../hook/useMe";
+import { useMe } from "../hook/useUser";
 import { ROUTES } from "../router";
 import { LocationState, ToDoInModal } from "./Modal";
 import SearchForm from "./SearchForm";
@@ -20,9 +20,6 @@ function Navigation() {
   const toggleSearch = () => {
     navigate("");
   };
-  useEffect(() => {
-    getMe();
-  }, []);
 
   useEffect(() => {
     if (state?.todo === ToDoInModal.refreshToken) getMe();

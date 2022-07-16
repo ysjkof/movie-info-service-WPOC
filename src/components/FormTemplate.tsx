@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { validInput } from "../utils/useAuth";
+import { validInput } from "../services/formServices";
 import { ToDoInModal } from "./Modal";
 
 export interface Errors {

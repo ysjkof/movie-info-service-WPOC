@@ -63,40 +63,9 @@ See also: #23, #24
 
 **결론**: 작업 후 브랜치는 삭제될거고, 커밋에 브랜치 이름이 기록되지 않으니 브랜치 이름이 중복되는 건 신경쓰지 말고 그냥 **할 일**을 적는다.
 
-## 3. API
+## 3. 학습목표
 
-### 3.A. UserServices
-
-#### 3.A.1. getUser(email:string):Promise<User>
-
-- async/await으로 받아와 state에 넣어줘야 값을 읽을 수 있다
-
-```ts
-function Home() {
-  const [user, setUser] = useState<User>();
-
-  useEffect(() => {
-    (async () => {
-      const gettedUser = await userServices.getUser("test@t.co");
-      setUser(gettedUser);
-    })();
-  }, []);
-
-  return <h1>{user && user.email}</h1>;
-}
-```
-
-#### 3.A.2. getLastUserId():Promise<number>
-
-- 전체 user 배열은 받아서 id를 내림차순으로 정렬해 index 0의 id값을 반환한다
-
-#### 3.A.2. postUser(user:User)
-
-- user객체를 전달하면 데이터베이스에 저장한다
-
-## 4. 학습목표
-
-### 4.A. 선발 과제
+### 3.A. 선발 과제
 
 - [x] `Ref` 를 활용하여 렌더링을 최적화 시킬 수 있다.
 - [x] `Local Storage` 를 활용하여 유저 데이터를 처리할 수 있다.
@@ -104,7 +73,7 @@ function Home() {
 - [x] `반응형 CSS`를 위한 `theme`을 정의하여, 공통된 CSS 컨벤션을 팀이 활용할 수 있다.
 - [x] `Routing`을 활용하여 유저 로그인 상태에 따른 페이지 이동을 시킬 수 있다.
 
-### 4.B. 영화 정보 사이트
+### 3.B. 영화 정보 사이트
 
 - [x] `data fetching module`을 구현할 수 있다.
 - [x] `검색 기능`을 구현할 수 있다.
@@ -114,7 +83,7 @@ function Home() {
 
 ---
 
-### 4.C. 검색어 추천
+### 3.C. 검색어 추천
 
 - 간단한 검색어 추천 로직을 만들 수 있다.
 

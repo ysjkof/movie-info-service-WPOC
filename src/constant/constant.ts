@@ -1,7 +1,6 @@
 // URL
-const BASE_URL = "http://localhost:8000/";
-export const USER_URL = `${BASE_URL}users/`;
-export const MOVIE_URL = `${BASE_URL}movies/`;
+export const BASE_URL = "http://localhost:8000/";
+export const END_POINT = { users: "users", movies: "movies" };
 
 // etc
 export const MOVIE_TAKE_NUMBER = 20;
