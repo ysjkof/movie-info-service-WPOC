@@ -20,6 +20,7 @@
 
 ## 구현 화면
 
+
 - 버튼 상호작용
 
 ![login button](https://user-images.githubusercontent.com/77876601/187838928-f7d7c317-74cd-49c4-afcd-0cb0aed65402.gif)
@@ -156,6 +157,3 @@ sh: vite: command not found
 | **styles**      | CSS                                                                                         |
 | **utils**       | 다른 폴더에 들어가기 적합하지 않은 특정 기능에 종속되지 않거나 전역적인 1~2줄의 간단한 함수 |
 
-## 고민한 점
-
-## 커밋 기록

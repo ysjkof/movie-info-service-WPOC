@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
 /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -55,7 +55,8 @@ a{
 	text-decoration: none;
 }
 button{
-	border: 1px solid white
+	border: 1px solid white;
+	cursor: pointer;
 }
 `;
 
