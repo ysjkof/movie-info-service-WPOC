@@ -20,6 +20,27 @@
 
 ## 구현 화면
 
+
+- 버튼 상호작용
+
+![login button](https://user-images.githubusercontent.com/77876601/187838928-f7d7c317-74cd-49c4-afcd-0cb0aed65402.gif)
+
+- 인풋 검증
+
+![login input validation](https://user-images.githubusercontent.com/77876601/187838938-9f3c00f8-0e28-4d7a-97ba-ea51cc256e06.gif)
+
+- 즐겨찾기 버튼 상호작용
+
+![click favorite on main](https://user-images.githubusercontent.com/77876601/187838953-57623fb0-f466-474c-ad4f-60860ba80557.gif)
+
+- 즐겨찾기, 검색 화면 전환
+
+![toggle favorite, search](https://user-images.githubusercontent.com/77876601/187838960-6596fa46-a227-4ad9-9ac7-09d19215ed85.gif)
+
+- Fuzzy String Matching
+
+![fuzzy search](https://user-images.githubusercontent.com/77876601/187838966-b0493461-939f-4246-ba78-b6a13f9984e4.gif)
+
 ## 프로젝트 실행 방법
 
 1. 프로젝트 다운로드
@@ -136,6 +157,3 @@ sh: vite: command not found
 | **styles**      | CSS                                                                                         |
 | **utils**       | 다른 폴더에 들어가기 적합하지 않은 특정 기능에 종속되지 않거나 전역적인 1~2줄의 간단한 함수 |
 
-## 고민한 점
-
-## 커밋 기록
