@@ -34,6 +34,7 @@
 - 로그인 정보는 local환경의 json-server(./database.json)에 저장됩니다.
 
 > email : `test@t.co`
+>
 > password : `asd123!@`
 
 ### 실행이 안될 때
@@ -62,8 +63,8 @@ sh: vite: command not found
 
 - [x] 검색어를 입력하면 입력된 문자열을 통해 데이터에서 추천 검색어를 출력
 - [x] 검색어가 없을 시 “검색어 없음”으로 노출
-- [x] API 호출을 최소화(debounce)
-- [x] Fuzzy String Matching
+- [x] API 호출을 최소화(**debounce**)
+- [x] **Fuzzy String Matching**
 
 ## 사용한 라이브러리나 프레임워크
 
@@ -77,7 +78,17 @@ sh: vite: command not found
 
 프로젝트 빌더 [https://vitejs-kr.github.io/](https://vitejs-kr.github.io/)
 
-[https://github.com/ysjkof/wanted-pre-onboarding-challenge-fe-1#vitejs](https://github.com/ysjkof/wanted-pre-onboarding-challenge-fe-1#vitejs)
+- 기존에 설정이 편해서 CRA(Create React App) 사용
+- 프로젝트 수정한 게 갱신되지 않아 프로젝트 재시작을 자주하게 됨
+  - 이때 2~3초 걸리는 게 낭비가 크다고 느낌
+- vite.js라는 걸 알게됨
+- [왜 vite를 사용해야 하는지](https://vitejs-kr.github.io/guide/why.html)를 읽어보니 ES Modules과 Go로 작성된 Esbuild를 사용해 빠르다고함.
+- 일단 한 번 사용해봄
+  - CRA와 사용방법이 같아서 신경 쓸 게 없다
+  - 설치 속도가 빠르다!
+    - CRA는 다운받고 설치할 때 터미널이 많이 올라가고 시간이 걸리는데 vite는 그런거 없다.
+  - 프로젝트 시작하는 속도가 분명히 느껴질만큼 빠르다!
+  - 프로젝트 수정 갱신되는 게 분명히 느껴질만큼 빠르다!
 
 ### axios
 
@@ -97,8 +108,8 @@ sh: vite: command not found
 └── src
    ├── api
    ├── components
-   ├── constant
-   ├── hook
+   ├── constants
+   ├── hooks
    ├── models
    ├── pages
    ├── services
@@ -106,9 +117,24 @@ sh: vite: command not found
    └── utils
 ```
 
-| 폴더    | 용도                                                                    |
-| ------- | ----------------------------------------------------------------------- |
-| **api** | 프로젝트에서 낮은 단계의 인스턴스나 모듈을 보관. fetcher와 fetch module |
+폴더 구조는 데이터를 요청하는 기능, 데이터를 가공하는 기능, 화면에 그리는 기능을 분리하기 위해 구성됐습니다.
+
+- hook은 controller에 데이터를 요청합니다
+- controller는 api를 사용해 서버에서 데이터를 받고 hook에 보냅니다
+- hook은 받은 데이터를 필요한 형태로 가공합니다
+- page는 훅에서 받은 데이터를 화면에 보여줍니다
+
+| 폴더            | 용도                                                                                        |
+| --------------- | ------------------------------------------------------------------------------------------- |
+| **api**         | 프로젝트에서 낮은 단계의 인스턴스나 모듈을 보관. fetcher와 fetch module                     |
+| **components**  | 페이지를 구성하는 요소들을 보관                                                             |
+| **constants**   | 상수 모음. 정규표현식, 로컬스토리지 키, type, 에러메시지 등                                 |
+| **hooks**       | 훅을 보관. 여기서 controller를 사용해 데이터를 받고 처리한다                                |
+| **controllers** | 데이터 요청을 하기 위해 endpoint를 갖고 처리를 하는 기능                                    |
+| **pages**       | 최종적으로 화면에 나타나는 페이지 보관                                                      |
+| **services**    | controller와 hook에 들어가지 않는 관심사(auth, todo)에 연관된 기능                          |
+| **styles**      | CSS                                                                                         |
+| **utils**       | 다른 폴더에 들어가기 적합하지 않은 특정 기능에 종속되지 않거나 전역적인 1~2줄의 간단한 함수 |
 
 ## 고민한 점
 
