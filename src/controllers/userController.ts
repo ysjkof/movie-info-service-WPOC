@@ -5,7 +5,6 @@ import { END_POINT } from '../constants/constants';
 type Watched = { id: number; numberOfWached: number }[];
 export class User {
   public readonly watched: Watched = [];
-  public readonly likes: number[] = [];
   public readonly favorites: number[] = [];
   constructor(
     public readonly id: number,
@@ -22,7 +21,8 @@ class UserController {
       .getByEmail('email', email)
       .catch((error) => console.error(error))
       .finally(() => usersAxios.log({ functionName: 'getUserByEmail' }));
-    return response?.data.length === 0 ? false : response?.data[0];
+    if (!response) throw new Error('응답이 없습니다');
+    return response.data.length === 0 ? false : response.data[0];
   };
 
   getUser = async () => {
@@ -30,7 +30,8 @@ class UserController {
       .getAll()
       .catch((error) => console.error(error))
       .finally(() => usersAxios.log({ functionName: 'getUser' }));
-    return response?.data;
+    if (!response) throw new Error('응답이 없습니다');
+    return response.data;
   };
 
   getUserById = async (id: number) => {
@@ -38,7 +39,8 @@ class UserController {
       .getOneById(id)
       .catch((error) => console.error(error))
       .finally(() => usersAxios.log({ functionName: 'getUserById' }));
-    return response?.data;
+    if (!response) throw new Error('응답이 없습니다');
+    return response.data;
   };
 
   getUserByFieldAndSort = async ({ direction, queryField }: GetSort) => {
@@ -46,7 +48,8 @@ class UserController {
       .getSort({ direction, queryField })
       .catch((error) => console.error(error))
       .finally(() => usersAxios.log({ functionName: 'getUserByFieldAndSort' }));
-    return response?.data[0];
+    if (!response) throw new Error('응답이 없습니다');
+    return response.data[0];
   };
 
   saveUser = async (user: User) => {
@@ -55,7 +58,8 @@ class UserController {
       .catch((error) => console.error(error))
       .finally(() => usersAxios.log({ functionName: 'saveUser' }));
 
-    return { user: response?.data };
+    if (!response) throw new Error('응답이 없습니다');
+    return { user: response.data };
   };
 
   updateUser = async (userId: number, user: User) => {
@@ -64,7 +68,8 @@ class UserController {
       .catch((error) => console.error(error))
       .finally(() => usersAxios.log({ functionName: 'updateUser' }));
 
-    return { user: response?.data };
+    if (!response) throw new Error('응답이 없습니다');
+    return { user: response.data };
   };
 
   log = (log: Log) =>

@@ -27,7 +27,7 @@ function LoginForm() {
     if (!loginResults.user)
       return setErrors((prevState) => ({
         ...prevState,
-        [EMAIL]: true, // 할일: 에러 처리
+        [EMAIL]: true,
         worning: '에러',
       }));
 

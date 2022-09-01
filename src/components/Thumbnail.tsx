@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { MovieType } from '../controllers/movieController';
+import { checkHasFavorite } from '../services/movieServices';
 import { getUserLocalStorage } from '../services/userServices';
 
 interface MovieProps {
@@ -10,13 +11,15 @@ interface MovieProps {
 function MovieThumbnail({ movie, openMovie }: MovieProps) {
   const loggedInUser = getUserLocalStorage();
 
-  const checkHasLike = (likes: number[], movieId: number) =>
-    !!likes?.find((like) => like === movieId);
-
   return (
     <Container onClick={openMovie}>
       <CoverImg src={movie.medium_cover_image} />
-      {checkHasLike(loggedInUser?.likes, movie.id) && <Like>Like</Like>}
+      <BadgeContainer>
+        {movie.like && <Badge>Like</Badge>}
+        {checkHasFavorite(movie.id, loggedInUser?.favorites) && (
+          <Badge>favorite</Badge>
+        )}
+      </BadgeContainer>
       <HoverContainer>
         <Title>{movie.title}</Title>
       </HoverContainer>
@@ -33,13 +36,19 @@ const Container = styled.div`
 const CoverImg = styled.img`
   width: 100%;
 `;
-
-const Like = styled.span`
+const BadgeContainer = styled.div`
   position: absolute;
   top: 0;
   right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+`;
+
+const Badge = styled.span`
   padding: 0.1rem 0.4rem;
   background-color: #e70000;
+  cursor: pointer;
 `;
 
 const HoverContainer = styled.div`

@@ -1,5 +1,6 @@
 import { LOCAL_STORAGE_KEY, LoginInput } from '../constants/constants';
-import userModel, { User } from '../controllers/userController';
+import userController, { User } from '../controllers/userController';
+import { ToggleOptions } from '../type';
 import { removeInArrayByIndex } from '../utils/utils';
 
 export const setUserLocalStorage = (user: User) => {
@@ -15,7 +16,7 @@ export const removeUserLocalStorage = () => {
 };
 
 export const login = async ({ email, password }: LoginInput) => {
-  const user = await userModel.getUserByEmail(email);
+  const user = await userController.getUserByEmail(email);
   if (!user) return { error: '가입되지 않은 이메일입니다' };
 
   if (user.password !== password) return { error: '비밀번호를 확인해주세요' };
@@ -24,49 +25,25 @@ export const login = async ({ email, password }: LoginInput) => {
 };
 
 export const createAccount = async ({ email, password }: LoginInput) => {
-  const exist = await userModel.getUserByEmail(email);
+  const exist = await userController.getUserByEmail(email);
   if (exist) return { error: '가입할 수 없는 email입니다' };
 
-  const user = await userModel.getUserByFieldAndSort({
+  const user = await userController.getUserByFieldAndSort({
     direction: 'desc',
     queryField: 'id',
   });
 
   if (!user) throw new Error('User is not found');
 
-  const { user: createdUser } = await userModel.saveUser(
+  const { user: createdUser } = await userController.saveUser(
     new User(user.id + 1, email, password)
   );
 
   return { user: createdUser };
 };
 
-interface ToggleOptions {
-  userId: number;
-  movieId: number;
-}
-
-export const toggleLike = async ({ userId, movieId }: ToggleOptions) => {
-  const data = await userModel.getUserById(userId);
-  if (!data) return;
-
-  let user = { ...data };
-
-  const existLikeIdx = user.likes.findIndex((like) => like === movieId);
-  if (existLikeIdx === -1) {
-    user.likes.push(movieId);
-  } else {
-    user.likes = removeInArrayByIndex(user.likes, existLikeIdx);
-  }
-
-  await userModel
-    .updateUser(userId, user)
-    .finally(() => userModel.log({ functionName: 'toggleLike' }));
-  return user;
-};
-
 export const toggleFavorite = async ({ userId, movieId }: ToggleOptions) => {
-  const data = await userModel.getUserById(userId);
+  const data = await userController.getUserById(userId);
   if (!data) return;
 
   let user = { ...data };
@@ -80,8 +57,8 @@ export const toggleFavorite = async ({ userId, movieId }: ToggleOptions) => {
     user.favorites = removeInArrayByIndex(user.favorites, existFavoriteIdx);
   }
 
-  await userModel
+  await userController
     .updateUser(userId, user)
-    .finally(() => userModel.log({ functionName: 'toggleFavorite' }));
+    .finally(() => userController.log({ functionName: 'toggleFavorite' }));
   return user;
 };

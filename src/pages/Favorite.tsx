@@ -5,7 +5,7 @@ import { Container } from './Home';
 import Thumbnails from '../components/Thumbnails';
 
 function Favorite() {
-  const { likeMovies, getLikes } = useMovie();
+  const { likeMovies, getFavorites } = useMovie();
   const { me, getMe } = useMe();
 
   useEffect(() => {
@@ -13,8 +13,8 @@ function Favorite() {
   }, []);
 
   useEffect(() => {
-    if (me?.likes) getLikes(me.likes ?? [0]);
-  }, [me?.likes]);
+    if (me?.favorites) getFavorites(me.favorites ?? [0]);
+  }, [me]);
 
   return (
     <Container>

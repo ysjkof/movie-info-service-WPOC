@@ -1,13 +1,13 @@
-import { Route, Routes } from "react-router-dom";
-import Layout from "./components/Layout";
-import Favorite from "./pages/Favorite";
-import Home from "./pages/Home";
-import NotFound from "./pages/NotFound";
-import Search from "./pages/Search";
+import { Route, Routes } from 'react-router-dom';
+import Layout from './components/Layout';
+import Favorite from './pages/Favorite';
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
+import Search from './pages/Search';
 
 export const ROUTES = {
-  home: "/",
-  favorite: "/favorite",
+  home: '/',
+  favorite: '/favorite',
 };
 
 function Router() {

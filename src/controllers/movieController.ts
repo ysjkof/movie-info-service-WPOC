@@ -33,11 +33,21 @@ export interface MovieType {
 const moviesAxios = new HttpRequest<MovieType>(axiosInstance, END_POINT.movies);
 
 class MovieController {
+  toggleLike = async (id: number, like: boolean) => {
+    const response = await moviesAxios
+      .patch(id, { like })
+      .catch((error) => console.error(error))
+      .finally(() => moviesAxios.log({ functionName: 'toggleLike' }));
+    if (!response) throw new Error('응답이 없습니다');
+    return response?.data;
+  };
+
   getAll = async () => {
     const response = await moviesAxios
       .getAll()
       .catch((error) => console.error(error))
       .finally(() => moviesAxios.log({ functionName: 'getAll' }));
+    if (!response) throw new Error('응답이 없습니다');
     return response?.data || [];
   };
 
@@ -46,7 +56,8 @@ class MovieController {
       .getOneById(id)
       .catch((error) => console.error(error))
       .finally(() => moviesAxios.log({ functionName: 'getOneById' }));
-    return response?.data;
+    if (!response) throw new Error('응답이 없습니다');
+    return response.data;
   };
 
   getManyByTerm = async (term: string) => {
@@ -54,6 +65,7 @@ class MovieController {
       .getTerm(term)
       .catch((error) => console.error(error))
       .finally(() => moviesAxios.log({ functionName: 'getManyByTerm' }));
+    if (!response) throw new Error('응답이 없습니다');
     return response?.data || [];
   };
 }

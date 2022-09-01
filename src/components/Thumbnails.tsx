@@ -1,25 +1,27 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import useIntersectionObserver from '../hooks/useIntersectionObserver';
-import { useMovie } from '../hooks/useMovie';
 import { MovieType } from '../controllers/movieController';
 import { ToDoInModal } from './Modal';
 import MovieThumbnail from './Thumbnail';
 
 interface MovieProps {
-  movies: (MovieType | undefined)[];
+  movies: MovieType[];
   setPageNumber?: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function Thumbnails({ movies, setPageNumber }: MovieProps) {
-  const { getMovie } = useMovie();
   const navigate = useNavigate();
+  const [thumbnailMovies, setThumbnailMovies] = useState(movies);
 
-  const openMovie = (movieId: number, movie: MovieType) => {
-    getMovie(movieId);
+  const openMovie = (movieId: number) => {
     navigate('', {
-      state: { hasModal: true, todo: ToDoInModal.openMovie, movie },
+      state: {
+        hasModal: true,
+        todo: ToDoInModal.openMovie,
+        movieId,
+      },
     });
   };
 
@@ -29,17 +31,22 @@ function Thumbnails({ movies, setPageNumber }: MovieProps) {
   };
   useIntersectionObserver(intersectionRef, intersectionCalback);
 
+  useEffect(() => {
+    setThumbnailMovies(movies);
+  }, [movies]);
   return (
     <>
       <ContainerThumbnail>
-        {movies.length === 0 && <Worning>검색 결과가 없습니다.</Worning>}
-        {movies?.map(
+        {thumbnailMovies.length === 0 && (
+          <Worning>검색 결과가 없습니다.</Worning>
+        )}
+        {thumbnailMovies.map(
           (movie) =>
             movie && (
               <MovieThumbnail
                 key={movie.id + Date.now()}
                 movie={movie}
-                openMovie={() => openMovie(movie.id, movie)}
+                openMovie={() => openMovie(movie.id)}
               />
             )
         )}

@@ -18,7 +18,7 @@ export const ToDoInModal = {
 export interface LocationState {
   hasModal: boolean;
   todo?: ToDoInModal;
-  movie?: MovieType;
+  movieId?: MovieType['id'];
 }
 
 function Modal() {
@@ -45,8 +45,8 @@ function Modal() {
             <CloseButton onClick={closeModal}>X</CloseButton>
             {state?.todo === ToDoInModal.login && <LoginForm />}
             {state?.todo === ToDoInModal.createAccount && <CreateAccountForm />}
-            {state?.todo === ToDoInModal.openMovie && state.movie && (
-              <MovieCard movie={state.movie} />
+            {state?.todo === ToDoInModal.openMovie && state.movieId && (
+              <MovieCard movieId={state.movieId} />
             )}
           </ModalContents>
         </Container>

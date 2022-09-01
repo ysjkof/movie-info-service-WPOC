@@ -7,6 +7,11 @@ export interface PaginationOption {
   page: number;
 }
 
+interface CacheUpdate {
+  newMovie: MovieType;
+  movies: MovieType[];
+}
+
 const sliceMovies = (movies: MovieType[], { take, page }: PaginationOption) => {
   const startIndex = take * page - take;
   const endIndex = take * page;
@@ -19,7 +24,7 @@ export const useMovie = () => {
   const [allMovies, setAllMovies] = useState<MovieType[]>([]);
   const [movieTitles, setMovieTitles] = useState<string[]>([]);
   const [movies, setMovies] = useState<MovieType[]>([]);
-  const [likeMovies, setLikeMovies] = useState<(MovieType | undefined)[]>([]);
+  const [favoriteMovies, setFavoriteMovies] = useState<MovieType[]>([]);
   const [movie, setMovie] = useState<MovieType>();
 
   const take = MOVIE_TAKE_NUMBER;
@@ -50,11 +55,11 @@ export const useMovie = () => {
     return setMovies(searchedMovies);
   };
 
-  const getLikes = async (likeIds: number[]) => {
-    const likes = await Promise.all(
+  const getFavorites = async (likeIds: number[]) => {
+    const favorites: MovieType[] = await Promise.all(
       likeIds.map(async (id) => await movieServices.getOneById(id))
     );
-    setLikeMovies(likes);
+    setFavoriteMovies(favorites);
   };
 
   return {
@@ -63,8 +68,8 @@ export const useMovie = () => {
     getMovie,
     movie,
     searchMovieTitle,
-    likeMovies,
-    getLikes,
+    likeMovies: favoriteMovies,
+    getFavorites,
     movieTitles,
   };
 };

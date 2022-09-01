@@ -1,32 +1,28 @@
-import { Fragment } from "react";
-import styled from "styled-components";
-import { getRegex } from "../utils/utils";
+import { Fragment } from 'react';
+import styled from 'styled-components';
+import { getRegex } from '../utils/utils';
 
 interface HighlightTextProps {
   title: string;
   term: string;
 }
 
-const TITLE_IDENTIFIER = "!@#";
+const TITLE_IDENTIFIER = '!@#';
 const TITLE_SEPERATOR = `,${TITLE_IDENTIFIER},`;
 
 function HighlightText({ title, term }: HighlightTextProps) {
-  const getOriginalTerm = (term: string) => title.match(getRegex(term)) ?? "";
+  const getOriginalTerm = (term: string) => title.match(getRegex(term)) ?? '';
 
   const injectIdentifier = (term: string) =>
     title.replaceAll(term, TITLE_SEPERATOR);
 
-  const splitTitle = (title: string) => title.split(",");
+  const splitTitle = (title: string) => title.split(',');
 
   const removeEmptyValue = (splitedTitle: ReturnType<typeof splitTitle>) => {
     return !!!splitedTitle[0] ? splitedTitle.slice(1) : splitedTitle;
   };
 
   const [originalTerm] = getOriginalTerm(term);
-
-  // const injectedTitle = injectIdentifier(originalTerm);
-  // const split = splitTitle(injectedTitle);
-  // const processedTitle = removeEmptyValue(split);
 
   const processedTitle = removeEmptyValue(
     splitTitle(injectIdentifier(originalTerm))

@@ -30,7 +30,7 @@ function CreateAccountForm() {
     if (!createAccountResults.user)
       return setErrors((prevState) => ({
         ...prevState,
-        [EMAIL]: true, // 할일: 고쳐
+        [EMAIL]: true,
         worning: 'error',
       }));
 
