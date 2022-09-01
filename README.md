@@ -15,8 +15,6 @@
     - [json-server](#json-server)
     - [styled-components](#styled-components)
   - [폴더 구조](#폴더-구조)
-  - [고민한 점](#고민한-점)
-  - [커밋 기록](#커밋-기록)
 
 ## 구현 화면
 
