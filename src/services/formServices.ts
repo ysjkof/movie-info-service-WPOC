@@ -1,9 +1,9 @@
-import { Errors } from "../components/LoginForm";
+import { Errors } from '../components/LoginForm';
 import {
   ERROR_MESSAGES,
   InputNames,
   LOGIN_INPUT_REGEX,
-} from "../constant/constant";
+} from '../constants/constants';
 
 interface Validation {
   name: InputNames;
@@ -28,7 +28,7 @@ export const validInput = ({ ref, setErrors }: ValidInput) => {
   setErrors((prevState) => ({
     ...prevState,
     [name]: false,
-    worning: "",
+    worning: '',
   }));
   setErrors((prevState) => ({ ...prevState, [name]: false }));
 };

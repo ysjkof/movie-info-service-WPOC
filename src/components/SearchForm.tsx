@@ -1,10 +1,10 @@
-import { FormEvent, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { useMovie } from "../hook/useMovie";
-import debouunce from "../utils/debounce";
-import { getRegex, isZeroLengthArray } from "../utils/utils";
-import HighlightText from "./HighlightText";
+import { FormEvent, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { useMovie } from '../hooks/useMovie';
+import debouunce from '../utils/debounce';
+import { getRegex, isZeroLengthArray } from '../utils/utils';
+import HighlightText from './HighlightText';
 
 function SearchForm() {
   const { movieTitles, getMovies } = useMovie();
@@ -30,7 +30,7 @@ function SearchForm() {
   const invokeAutoComplete = (term: string | undefined) => {
     if (!term) return setAutoComplete([]);
     let titles = checkFuzzyStringMatch(term);
-    if (isZeroLengthArray(titles)) titles = ["검색어 없음"];
+    if (isZeroLengthArray(titles)) titles = ['검색어 없음'];
     setAutoComplete(titles);
   };
 
@@ -47,7 +47,7 @@ function SearchForm() {
   return (
     <Form onSubmit={searchMovie}>
       <input
-        type={"search"}
+        type={'search'}
         ref={searchInputRef}
         onBlur={closeAutoComplete}
         onChange={getAutoComplete}

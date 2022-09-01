@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
-import Thumbnails from "../components/Thumbnails";
-import { useMovie } from "../hook/useMovie";
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import Thumbnails from '../components/Thumbnails';
+import { useMovie } from '../hooks/useMovie';
 
 function Home() {
   const { getMovies, movies } = useMovie();

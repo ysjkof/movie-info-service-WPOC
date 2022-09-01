@@ -1,8 +1,8 @@
-import { useEffect } from "react";
-import { useMe } from "../hook/useUser";
-import { useMovie } from "../hook/useMovie";
-import { Container } from "./Home";
-import Thumbnails from "../components/Thumbnails";
+import { useEffect } from 'react';
+import { useMe } from '../hooks/useUser';
+import { useMovie } from '../hooks/useMovie';
+import { Container } from './Home';
+import Thumbnails from '../components/Thumbnails';
 
 function Favorite() {
   const { likeMovies, getLikes } = useMovie();

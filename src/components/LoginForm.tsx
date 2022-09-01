@@ -1,8 +1,8 @@
-import { FormEvent } from "react";
-import { EMAIL } from "../constant/constant";
-import { checkError } from "../services/formServices";
-import { login, setUserLocalStorage } from "../services/userServices";
-import FormTemplate, { SubmitParameter } from "./FormTemplate";
+import { FormEvent } from 'react';
+import { EMAIL } from '../constants/constants';
+import { checkError } from '../services/formServices';
+import { login, setUserLocalStorage } from '../services/userServices';
+import FormTemplate, { SubmitParameter } from './FormTemplate';
 
 export interface Errors {
   email: boolean;
@@ -28,14 +28,14 @@ function LoginForm() {
       return setErrors((prevState) => ({
         ...prevState,
         [EMAIL]: true, // 할일: 에러 처리
-        worning: "에러",
+        worning: '에러',
       }));
 
     setUserLocalStorage(loginResults.user!);
     goToMain();
   };
 
-  return <FormTemplate title={"로그인"} handleSubmit={handleSubmit} />;
+  return <FormTemplate title={'로그인'} handleSubmit={handleSubmit} />;
 }
 
 export default LoginForm;

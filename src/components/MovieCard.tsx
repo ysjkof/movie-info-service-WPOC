@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 // import { userServices } from "../api/userApi";
-import { useMe } from "../hook/useUser";
-import { MovieType } from "../models/movieModel";
+import { useMe } from '../hooks/useUser';
+import { MovieType } from '../controllers/movieController';
 import {
   setUserLocalStorage,
   toggleFavorite,
   toggleLike,
-} from "../services/userServices";
+} from '../services/userServices';
 
 interface MovieProps {
   movie: MovieType;
@@ -31,7 +31,7 @@ function MovieCard({ movie }: MovieProps) {
       movieId: movie.id,
     });
 
-    if (!user) throw new Error("Not found user");
+    if (!user) throw new Error('Not found user');
     setUserLocalStorage(user);
     getMe();
   };
@@ -44,7 +44,7 @@ function MovieCard({ movie }: MovieProps) {
       movieId: movie.id,
     });
 
-    if (!user) throw new Error("Not found user");
+    if (!user) throw new Error('Not found user');
     setUserLocalStorage(user);
     getMe();
   };
@@ -88,11 +88,11 @@ function MovieCard({ movie }: MovieProps) {
         </Controller>
         <h2>{movie.title}</h2>
         <h3>Rating : {movie.rating}</h3>
-        <h3>Genres : {movie.genres.map((genre) => genre).join(", ")}</h3>
+        <h3>Genres : {movie.genres.map((genre) => genre).join(', ')}</h3>
         <h3>Runtime : {movie.runtime}minutes</h3>
         <div>
           <h3>Summary</h3>
-          <p>{movie.summary ? movie.summary : "there is no summary"}</p>
+          <p>{movie.summary ? movie.summary : 'there is no summary'}</p>
         </div>
       </Description>
     </Container>
@@ -143,9 +143,9 @@ const Controller = styled.div`
 `;
 
 const Button = styled.div<{ isSelect: boolean; isActivate: boolean }>`
-  display: ${(props) => !props.isActivate && "none"};
-  background-color: ${(props) => (props.isActivate ? "black" : "#00000078")};
-  color: ${(props) => (props.isSelect ? "red" : "gray")};
+  display: ${(props) => !props.isActivate && 'none'};
+  background-color: ${(props) => (props.isActivate ? 'black' : '#00000078')};
+  color: ${(props) => (props.isSelect ? 'red' : 'gray')};
   border: none;
   border-radius: 6px;
   padding: 0.3rem 1rem;

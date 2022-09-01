@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { MovieType } from "../models/movieModel";
-import CreateAccountForm from "./CreateAccountForm";
-import LoginForm from "./LoginForm";
-import MovieCard from "./MovieCard";
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { MovieType } from '../controllers/movieController';
+import CreateAccountForm from './CreateAccountForm';
+import LoginForm from './LoginForm';
+import MovieCard from './MovieCard';
 
-type ToDoInModal = "로그인" | "회원가입" | "REFRESH_TOKEN" | "OPEN_MOVIE";
+type ToDoInModal = '로그인' | '회원가입' | 'REFRESH_TOKEN' | 'OPEN_MOVIE';
 
 export const ToDoInModal = {
-  login: "로그인",
-  createAccount: "회원가입",
-  refreshToken: "REFRESH_TOKEN",
-  openMovie: "OPEN_MOVIE",
+  login: '로그인',
+  createAccount: '회원가입',
+  refreshToken: 'REFRESH_TOKEN',
+  openMovie: 'OPEN_MOVIE',
 };
 
 export interface LocationState {

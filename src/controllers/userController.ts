@@ -1,6 +1,6 @@
-import { axiosInstance } from "../api/axiosInstance";
-import { GetSort, HttpRequest, Log } from "../api/httpRequest";
-import { END_POINT } from "../constant/constant";
+import { axiosInstance } from '../api/axiosInstance';
+import { GetSort, HttpRequest, Log } from '../api/httpRequest';
+import { END_POINT } from '../constants/constants';
 
 type Watched = { id: number; numberOfWached: number }[];
 export class User {
@@ -16,12 +16,12 @@ export class User {
 
 const usersAxios = new HttpRequest<User>(axiosInstance, END_POINT.users);
 
-class UserModels {
+class UserController {
   getUserByEmail = async (email: string) => {
     const response = await usersAxios
-      .getByEmail("email", email)
+      .getByEmail('email', email)
       .catch((error) => console.error(error))
-      .finally(() => usersAxios.log({ functionName: "getUserByEmail" }));
+      .finally(() => usersAxios.log({ functionName: 'getUserByEmail' }));
     return response?.data.length === 0 ? false : response?.data[0];
   };
 
@@ -29,7 +29,7 @@ class UserModels {
     const response = await usersAxios
       .getAll()
       .catch((error) => console.error(error))
-      .finally(() => usersAxios.log({ functionName: "getUser" }));
+      .finally(() => usersAxios.log({ functionName: 'getUser' }));
     return response?.data;
   };
 
@@ -37,7 +37,7 @@ class UserModels {
     const response = await usersAxios
       .getOneById(id)
       .catch((error) => console.error(error))
-      .finally(() => usersAxios.log({ functionName: "getUserById" }));
+      .finally(() => usersAxios.log({ functionName: 'getUserById' }));
     return response?.data;
   };
 
@@ -45,7 +45,7 @@ class UserModels {
     const response = await usersAxios
       .getSort({ direction, queryField })
       .catch((error) => console.error(error))
-      .finally(() => usersAxios.log({ functionName: "getUserByFieldAndSort" }));
+      .finally(() => usersAxios.log({ functionName: 'getUserByFieldAndSort' }));
     return response?.data[0];
   };
 
@@ -53,7 +53,7 @@ class UserModels {
     const response = await usersAxios
       .post(user)
       .catch((error) => console.error(error))
-      .finally(() => usersAxios.log({ functionName: "saveUser" }));
+      .finally(() => usersAxios.log({ functionName: 'saveUser' }));
 
     return { user: response?.data };
   };
@@ -62,7 +62,7 @@ class UserModels {
     const response = await usersAxios
       .patch(userId, user)
       .catch((error) => console.error(error))
-      .finally(() => usersAxios.log({ functionName: "updateUser" }));
+      .finally(() => usersAxios.log({ functionName: 'updateUser' }));
 
     return { user: response?.data };
   };
@@ -74,4 +74,4 @@ class UserModels {
     });
 }
 
-export default new UserModels();
+export default new UserController();

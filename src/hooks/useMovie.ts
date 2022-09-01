@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { MOVIE_TAKE_NUMBER } from "../constant/constant";
-import movieServices, { MovieType } from "../models/movieModel";
+import { useState } from 'react';
+import { MOVIE_TAKE_NUMBER } from '../constants/constants';
+import movieServices, { MovieType } from '../controllers/movieController';
 
 export interface PaginationOption {
   take: number;

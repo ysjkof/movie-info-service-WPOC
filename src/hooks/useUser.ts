@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { User } from "../models/userModel";
+import { useEffect, useState } from 'react';
+import { User } from '../controllers/userController';
 import {
   getUserLocalStorage,
   removeUserLocalStorage,
-} from "../services/userServices";
+} from '../services/userServices';
 
 export const useMe = () => {
   const [me, setMe] = useState<User | undefined | null>(undefined);

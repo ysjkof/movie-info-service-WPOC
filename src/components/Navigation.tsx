@@ -1,10 +1,10 @@
-import { useEffect } from "react";
-import { Link, useLocation, useMatch, useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { useMe } from "../hook/useUser";
-import { ROUTES } from "../router";
-import { LocationState, ToDoInModal } from "./Modal";
-import SearchForm from "./SearchForm";
+import { useEffect } from 'react';
+import { Link, useLocation, useMatch, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { useMe } from '../hooks/useUser';
+import { ROUTES } from '../router';
+import { LocationState, ToDoInModal } from './Modal';
+import SearchForm from './SearchForm';
 
 function Navigation() {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ function Navigation() {
     navigate(ROUTES.favorite, { state: false });
   };
   const toggleSearch = () => {
-    navigate("");
+    navigate('');
   };
 
   useEffect(() => {
@@ -29,7 +29,7 @@ function Navigation() {
     <Container>
       <Column>
         <Title>
-          <Link to={""}>원티들릭스</Link>
+          <Link to={''}>원티들릭스</Link>
         </Title>
       </Column>
       {!matchFavorite && <SearchForm />}
@@ -50,7 +50,7 @@ function Navigation() {
           <Button
             isActive={!me}
             onClick={() =>
-              navigate("", {
+              navigate('', {
                 state: { hasModal: true, todo: ToDoInModal.login },
               })
             }
@@ -103,7 +103,7 @@ const Button = styled.button<{ isActive?: boolean }>`
       : props.theme.button.bgColor.inactivity};
   padding: 0.2rem 1rem;
   border-radius: 6px;
-  cursor: ${(props) => (props.isActive ? "pointer" : "default")};
+  cursor: ${(props) => (props.isActive ? 'pointer' : 'default')};
   :hover {
     scale: ${(props) => (props.isActive ? 1.2 : 1)};
   }

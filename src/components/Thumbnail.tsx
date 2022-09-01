@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { MovieType } from "../models/movieModel";
-import { getUserLocalStorage } from "../services/userServices";
+import styled from 'styled-components';
+import { MovieType } from '../controllers/movieController';
+import { getUserLocalStorage } from '../services/userServices';
 
 interface MovieProps {
   movie: MovieType;

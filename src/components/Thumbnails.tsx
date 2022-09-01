@@ -1,11 +1,11 @@
-import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import useIntersectionObserver from "../hook/useIntersectionObserver";
-import { useMovie } from "../hook/useMovie";
-import { MovieType } from "../models/movieModel";
-import { ToDoInModal } from "./Modal";
-import MovieThumbnail from "./Thumbnail";
+import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import useIntersectionObserver from '../hooks/useIntersectionObserver';
+import { useMovie } from '../hooks/useMovie';
+import { MovieType } from '../controllers/movieController';
+import { ToDoInModal } from './Modal';
+import MovieThumbnail from './Thumbnail';
 
 interface MovieProps {
   movies: (MovieType | undefined)[];
@@ -18,7 +18,7 @@ function Thumbnails({ movies, setPageNumber }: MovieProps) {
 
   const openMovie = (movieId: number, movie: MovieType) => {
     getMovie(movieId);
-    navigate("", {
+    navigate('', {
       state: { hasModal: true, todo: ToDoInModal.openMovie, movie },
     });
   };

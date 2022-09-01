@@ -1,8 +1,8 @@
-import { FormEvent } from "react";
-import { EMAIL } from "../constant/constant";
-import { checkError } from "../services/formServices";
-import { createAccount, setUserLocalStorage } from "../services/userServices";
-import FormTemplate, { SubmitParameter } from "./FormTemplate";
+import { FormEvent } from 'react';
+import { EMAIL } from '../constants/constants';
+import { checkError } from '../services/formServices';
+import { createAccount, setUserLocalStorage } from '../services/userServices';
+import FormTemplate, { SubmitParameter } from './FormTemplate';
 
 export interface Errors {
   email: boolean;
@@ -31,14 +31,14 @@ function CreateAccountForm() {
       return setErrors((prevState) => ({
         ...prevState,
         [EMAIL]: true, // 할일: 고쳐
-        worning: "error",
+        worning: 'error',
       }));
 
     setUserLocalStorage(createAccountResults.user);
     goToMain();
   };
 
-  return <FormTemplate title={"회원가입"} handleSubmit={handleSubmit} />;
+  return <FormTemplate title={'회원가입'} handleSubmit={handleSubmit} />;
 }
 
 export default CreateAccountForm;

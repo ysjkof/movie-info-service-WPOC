@@ -1,6 +1,6 @@
-import { axiosInstance } from "../api/axiosInstance";
-import { HttpRequest } from "../api/httpRequest";
-import { END_POINT } from "../constant/constant";
+import { axiosInstance } from '../api/axiosInstance';
+import { HttpRequest } from '../api/httpRequest';
+import { END_POINT } from '../constants/constants';
 
 export interface MovieType {
   id: number;
@@ -32,12 +32,12 @@ export interface MovieType {
 
 const moviesAxios = new HttpRequest<MovieType>(axiosInstance, END_POINT.movies);
 
-class MovieModels {
+class MovieController {
   getAll = async () => {
     const response = await moviesAxios
       .getAll()
       .catch((error) => console.error(error))
-      .finally(() => moviesAxios.log({ functionName: "getAll" }));
+      .finally(() => moviesAxios.log({ functionName: 'getAll' }));
     return response?.data || [];
   };
 
@@ -45,7 +45,7 @@ class MovieModels {
     const response = await moviesAxios
       .getOneById(id)
       .catch((error) => console.error(error))
-      .finally(() => moviesAxios.log({ functionName: "getOneById" }));
+      .finally(() => moviesAxios.log({ functionName: 'getOneById' }));
     return response?.data;
   };
 
@@ -53,9 +53,9 @@ class MovieModels {
     const response = await moviesAxios
       .getTerm(term)
       .catch((error) => console.error(error))
-      .finally(() => moviesAxios.log({ functionName: "getManyByTerm" }));
+      .finally(() => moviesAxios.log({ functionName: 'getManyByTerm' }));
     return response?.data || [];
   };
 }
 
-export default new MovieModels();
+export default new MovieController();
